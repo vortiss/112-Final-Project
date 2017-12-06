@@ -5,6 +5,11 @@ import java.awt.event.KeyEvent;
 
 class userObject{
 
+	public userObject(){
+		
+	
+	}
+
 }
 class Pair{
     public double x;
@@ -36,11 +41,10 @@ class Pair{
     }
 }
 class obstacles{
-	int speed;
+	pair speed;
 	int size;
 	int type;
-	int posX
-	int posY;
+	pair speed;
 	Scanner pictureFinder;
 	public cars(File picture){	
 		picture=new Scanner(picture);	
