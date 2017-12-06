@@ -4,11 +4,7 @@ import java.awt.event.KeyListener;
 import java.awt.event.KeyEvent;
 
 class userObject{
-
-	public userObject(){
-		
-	
-	}
+int lives;
 
 }
 class Pair{
@@ -41,10 +37,11 @@ class Pair{
     }
 }
 class obstacles{
-	pair speed;
+	int speed;
 	int size;
 	int type;
-	pair speed;
+	int posX
+	int posY;
 	Scanner pictureFinder;
 	public cars(File picture){	
 		picture=new Scanner(picture);	
