@@ -1,1 +1,22 @@
-oko
+import java.util.Random;
+import java.util.Scanner;
+
+
+class obstacles{
+	int speed;
+	int size;
+	int type;
+	Scanner pictureFinder;
+	public cars(File picture){	
+		picture=new Scanner(picture);	
+
+
+	}
+}	
+
+class powerup{
+
+	public powerup(){	
+	
+	}
+}
