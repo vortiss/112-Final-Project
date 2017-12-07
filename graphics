@@ -90,10 +90,10 @@ class World{
     int height;
     int width;
     
-    int numSpheres;
-    Sphere spheres[];
+    int numObstacles;
+    obstacle obstacles[];
     
-    public World(int initWidth, int initHeight){
+    public World(int initWidth, int initHeight,int numObstacle){
 	width = initWidth;
 	height = initHeight;
 	obstacles=new obstacle[];
@@ -101,12 +101,37 @@ class World{
 	    obstacles[i]=new obstacle;
 	}
     }
-    
+        
+    public void keyPressed(KeyEvent e) {
+        char c=e.getKeyChar();
+	System.out.println("You pressed down: " + c);
+	commands(e);	
+    }
+    public void keyReleased(KeyEvent e) {
+        char c=e.getKeyChar();
+	System.out.println("\tYou let go of: " + c);
+       
+    } 
+    public void keyTyped(KeyEvent e) {
+	char c = e.getKeyChar();
+	System.out.println("You typed: " + c);
+    }
+    public void addNotify() {
+        super.addNotify();
+        requestFocus();
+    }
+    public void commands(KeyEvent e){
+	char c=e.getKeyChar();
+	if(c=='w'||c=='a'||c=='s'||c=='d'){
+	    userObject.move(c,world);
+	}
+    }
     
     public void updateState(double time){
 	for (int i = 0; i < numSpheres; i ++)
 	   obstacles[i].update(this, time);
     }
+    
     
 }
 
