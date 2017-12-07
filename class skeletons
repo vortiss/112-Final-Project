@@ -5,7 +5,43 @@ import java.awt.event.KeyEvent;
 import java.awt.Graphics;
 
 class userObject{
-int lives;
+	private int lives;
+	pair position;
+	image player;
+	private boolean alive;
+	public userObject(World w){
+		alive=true;
+		lives=3;
+		position(world.initWidth
+		
+	}
+	public void move(char c, World w){
+		if(c=='w'){
+			position.y=position.y-30;
+		}
+		if(c=='a'){
+			position.x=position.x-30;
+		}
+		if(c=='s'){
+			position.y=position.y+30;
+		}
+		if(c=='d'){
+			position.x=position.x+30;
+		}
+		alive(w);
+	}
+	public void alive(World w){
+		int i=0;
+		while(alive&&i<world.obstacles.size()){
+			if(position.equals(world.obstacles[i].position)){
+			alive=false;
+			}
+			i++;
+		}
+		if(!alive){
+			lives=lives-1;
+		}
+	}
 
 }
 class Pair{
@@ -36,25 +72,34 @@ class Pair{
     public void flipY(){
 	y = -y;
     }
+    @Override
+    public boolean equals(pair compare){
+    	boolean equal=false;
+	if(x==compare.x&&y==compare.y){
+		equal=true;
+	}
+	return true
+    }
 }
 class obstacles{
-	int speed;
+	double speed;
 	int size;
 	int type;
-	int posX
-	int posY;
+	pair position
 	Scanner pictureFinder;
-	public cars(File picture){	
-		picture=new Scanner(picture);	
-
+	public obstacles(File picture){	
+		pictureFinder=new Scanner(picture);	
+		speed=rand.nextdouble(10);	
 
 	}
+	public void update(World w,){
+		position=position.times(speed)
 }	
 
 class powerup{
-
+	pair position;
 	public powerup(){	
-	
+	position
 	}
 }
  
