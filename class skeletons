@@ -4,6 +4,38 @@ import java.awt.event.KeyListener;
 import java.awt.event.KeyEvent;
 import java.awt.Graphics;
 
+public class Frogger extends JPanel{
+    public static final int WIDTH=1024;
+    public static final int HEIGHT=768;
+    public static void main(String[] args){
+        JFrame frame = new JFrame("Frogger");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setContentPane(new Frogger());
+        frame.pack();
+        frame.setVisible(true);
+    }
+    public Frogger(){
+        this.setPreferredSize(new Dimension(WIDTH, HEIGHT));
+    }
+    
+    public void paintComponent (Graphics gori){
+    Graphics 2D g = (Graphics 2D) gori;
+    	for (int i = 1; i < 13; i++){
+	if i % 3 = 2
+		g.setColor(Color.GREEN);
+	if i % 3 = 1 	
+		g.setColor(Color.GREY);
+	if i % 3 = 0
+		g.setColor(Color.BLUE);
+		
+    	(g.fill(new Rectangle 2D.Double(0, i*HEIGHT/12, width, HEIGHT/12));
+	
+	}
+    
+    }
+
+}
+
 class userObject{
 int lives;
 
@@ -64,3 +96,4 @@ class powerup{
 class terrain{
 
 }
+
