@@ -4,23 +4,8 @@ import java.awt.event.KeyListener;
 import java.awt.event.KeyEvent;
 import java.awt.Graphics;
 
-public class Frogger extends JPanel{
-    public static final int WIDTH=1024;
-    public static final int HEIGHT=768;
-    public static void main(String[] args){
-        JFrame frame = new JFrame("Frogger");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setContentPane(new Frogger());
-        frame.pack();
-        frame.setVisible(true);
-    }
-    public Frogger(){
-        this.setPreferredSize(new Dimension(WIDTH, HEIGHT));
-    }
-    
-  
 
-}
+
 
 class userObject{
 int lives;
@@ -39,33 +24,20 @@ class Pair{
 	return new Pair(x + toAdd.x, y + toAdd.y);
     }
     
-    public Pair divide(double denom){
-	return new Pair(x / denom, y / denom);
-    }
-    
-    public Pair times(double val){
-	return new Pair(x * val, y * val);
-    }
-    
-    public void flipX(){
-	x = -x;
-    }
-    
-    public void flipY(){
-	y = -y;
-    }
+ 
 }
 class obstacles{
-	int speed;
+	Pair position;
+	int velocity;
 	int size;
 	int type;
-	int posX
-	int posY;
 	Scanner pictureFinder;
-	public cars(File picture){	
+	
+	
+	public obstacles(File picture){	
 		picture=new Scanner(picture);	
-
-
+		position = new Pair(x,y) // x will either be 0 or the right most side of frame, y will be middle of respective row
+		
 	}
 }	
 
