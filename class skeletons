@@ -116,8 +116,15 @@ class powerup{
 }
 
 class terrain{
-	public terrain(int type){
+	
+	public terrain(int type,){
 		zone(type);
 	
+	}
+	
+	public void zone(int type, Graphics g){
+		if(type==1){
+			
+		}
 	}
 }
