@@ -19,137 +19,128 @@ public class Frogger extends JPanel implements KeyListener{
 				world.updateState(1.0 / (double)FPS);
 				repaint();
 				try{
-					Thread.sleep(1000/FPS);
+				    Thread.sleep(1000/FPS);
 				}
 				catch(InterruptedException e){}
 			}
+			
+		}
 	    
-		}
-	
-	}
-	
-	public void keyPressed(KeyEvent e) {
-		char c=e.getKeyChar();
-		System.out.println("You pressed down: " + c);
-		commands(e);
- 	}
-	
-	public void keyReleased(KeyEvent e) {
-		char c=e.getKeyChar();
-		System.out.println("\tYou let go of: " + c);
-	}
-	
-	public void keyTyped(KeyEvent e) {
-		char c = e.getKeyChar();
-		System.out.println("You typed: " + c);
-	}
-	
-	public void addNotify() {
-		super.addNotify();
-		requestFocus();
-	}
-	
-	public void commands(KeyEvent e){
-		char c=e.getK0eyChar();
-		if(c=='w'||c=='a'||c=='s'||c=='d'){
-			userObject.move(c,world);
-		}
-	}
-	
-	public Frogger(){
-		world = new World(WIDTH, HEIGHT, /*some function of the size of the screen*/);
-		addKeyListener(this);
-		this.setPreferredSize(new Dimension(WIDTH, HEIGHT));
-		Thread mainThread = new Thread(new Runner());
-		mainThread.start();
 	}
     
-	public static void main(String[] args){
-		JFrame frame = new JFrame("Frogger+");
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		Frogger mainInstance = new Frogger();
-		frame.setContentPane(mainInstance);
-		frame.pack();
-		frame.setVisible(true);
+    public void keyPressed(KeyEvent e) {
+	char c=e.getKeyChar();
+	System.out.println("You pressed down: " + c);
+	commands(e);
+    }
+    
+    public void keyReleased(KeyEvent e) {
+	char c=e.getKeyChar();
+	System.out.println("\tYou let go of: " + c);
+    }
+    
+    public void keyTyped(KeyEvent e) {
+	char c = e.getKeyChar();
+	System.out.println("You typed: " + c);
+    }
+    
+    public void addNotify() {
+	super.addNotify();
+	requestFocus();
+    }
+    
+    public void commands(KeyEvent e){
+	char c=e.getK0eyChar();
+	if(c=='w'||c=='a'||c=='s'||c=='d'){
+	    userObject.move(c,world);
 	}
-	public void paintComponent(Graphics g) {
-		super.paintComponent(g);
-		for (int i = 1; i < 13; i++){
-			if i % 3 == 2
-			g.setColor(Color.GREEN);	
-			if i % 3 == 1 	
-			g.setColor(Color.GREY);
-			if i % 3 == 0
-			g.setColor(Color.BLUE);
-			(g.fill(new Rectangle 2D.Double(0, i*HEIGHT/12, width, HEIGHT/12));
-		}
-		world.draw
-	}
+    }
+    
+    public Frogger(){
+	world = new World(WIDTH, HEIGHT,5*initHeight/12);
+	addKeyListener(this);
+	this.setPreferredSize(new Dimension(WIDTH, HEIGHT));
+	Thread mainThread = new Thread(new Runner());
+	mainThread.start();
+    }
+    
+    public static void main(String[] args){
+	JFrame frame = new JFrame("Frogger+");
+	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	Frogger mainInstance = new Frogger();
+	frame.setContentPane(mainInstance);
+	frame.pack();
+	frame.setVisible(true);
+    }
+    public void paintComponent(Graphics g) {
+	super.paintComponent(g);
+	world.zone.build(1,g);
+	world.drawObstacles(g);
+	
+    }
 }
 class World{
-	int height;
-	int width;
-	int numObstacles;
-	Obstacle obstacles[];
-	Terrain zone;
-	userObject player;
-	public World(int initWidth, int initHeight,int numObstacle){
-		
-		width = initWidth;
-		height = initHeight;
-		obstacles=new Obstacle[numObstacle];
-		for(int i=0; i< obstacles.length();i++){
-			obstacles[i]=new obstacle;
-		}
+    int height;
+    int width;
+    int numObstacles;
+    Obstacle obstacles[];
+    Terrain zone;
+    userObject player;
+    public World(int initWidth, int initHeight,int numObstacle){
 	
-	}
-
-	public void gameOver(Graphics g){
-
+	width = initWidth;
+	height = initHeight;
+	obstacles=new Obstacle[numObstacle];
+	for(int i=0; i< obstacles.length();i++){
+	    obstacles[i]=new obstacle;
 	}
 	
-	public void keyPressed(KeyEvent e) {
-		char c=e.getKeyChar();
-		System.out.println("You pressed down: " + c);
-		commands(e);
-	}
+    }
+    
+    public void gameOver(Graphics g){
 	
-	public void keyReleased(KeyEvent e) {
-		char c=e.getKeyChar();
-		System.out.println("\tYou let go of: " + c);
+    }
+    
+    public void keyPressed(KeyEvent e) {
+	char c=e.getKeyChar();
+	System.out.println("You pressed down: " + c);
+	commands(e);
+    }
+    
+    public void keyReleased(KeyEvent e) {
+	char c=e.getKeyChar();
+	System.out.println("\tYou let go of: " + c);
+    }
+    
+    public void keyTyped(KeyEvent e) {
+	char c = e.getKeyChar();
+	System.out.println("You typed: " + c);
+    }
+    
+    public void addNotify() {
+	super.addNotify();
+	requestFocus();
+    }
+    
+    public void commands(KeyEvent e){
+	char c=e.getKeyChar();
+	if(c=='w'||c=='a'||c=='s'||c=='d'){
+	    userObject.move(c,world);
 	}
+    }
+    
+    public void updateState(double time){
+	for (int i = 0; i < numSpheres; i++){
+	    obstacles[i].update(this, time);
+	    
+	}
+	stillAlive(this);
 	
-	public void keyTyped(KeyEvent e) {
-		char c = e.getKeyChar();
-		System.out.println("You typed: " + c);
-	}
-	
-	public void addNotify() {
-		super.addNotify();
-		requestFocus();
-	}
-	
-	public void commands(KeyEvent e){
-		char c=e.getKeyChar();
-		if(c=='w'||c=='a'||c=='s'||c=='d'){
-			userObject.move(c,world);
-		}
-	}
-	
-	public void updateState(double time){
-	paint component(frogger);
-		zone.build(1);
-		for (int i = 0; i < numSpheres; i++){
-			obstacles[i].update(this, time);
-			g.drawobstacles[i].position.x
-		}
-		stillAlive(this);
-		
-	}
-	public drawObstacles(Graphics g){
-	for (int i = 0; i < numObstacles; i++){
-	obstacles[i].draw(g);
-	}
-	
-	}
+    }
+    public void drawObstacles(Graphics g){
+	for(int i=0;i<obstacles.length();i++){
+	    obstacles[i].draw(g);
+	}	
+    }
+    
 }
