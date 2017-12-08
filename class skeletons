@@ -79,12 +79,12 @@ class obstacles{
 	public cars(File picture){	
 		picture=new Scanner(picture);	
 
-
 	}
 }	
 
 class powerup{
-
+int posX;
+int posY;
 	public powerup(){	
 	
 	}
