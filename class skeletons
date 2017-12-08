@@ -5,16 +5,18 @@ import java.awt.event.KeyEvent;
 import java.awt.Graphics;
 
 class userObject{
-	private int lives;
+	private static int lives;
 	pair position;
 	image player;
 	private boolean alive;
-	public userObject(World w){
+	
+	public static userObject(World w){
 		alive=true;
 		lives=3;
-		position(world.initWidth
+		position(w.initWidth/2,w.initHeight-/*Ycoordinate of the top left corner of the sprite*/);
 		
 	}
+	
 	public void move(char c, World w){
 		if(c=='w'){
 			position.y=position.y-30;
@@ -28,72 +30,82 @@ class userObject{
 		if(c=='d'){
 			position.x=position.x+30;
 		}
-		alive(w);
+		stillAlive(w);
 	}
-	public void alive(World w){
+	
+	public void stillAlive(World w){
 		int i=0;
 		while(alive&&i<world.obstacles.size()){
 			if(position.equals(world.obstacles[i].position)){
-			alive=false;
+				alive=false;
 			}
 			i++;
 		}
-		if(!alive){
+		if(!alive&&lives>0){
 			lives=lives-1;
+			position.x=w.initWidth/2
+			position.y=/*Y coordinate of the top left corner of sprite at the the start*/
+			alive=true;
 		}
+		else{ w.gameover();}
 	}
 
 }
 class Pair{
-    public double x;
-    public double y;
-    
-    public Pair(double initX, double initY){
-	x = initX;
-	y = initY;
-    }
-    
-    public Pair add(Pair toAdd){
-	return new Pair(x + toAdd.x, y + toAdd.y);
-    }
-    
-    public Pair divide(double denom){
-	return new Pair(x / denom, y / denom);
-    }
-    
-    public Pair times(double val){
-	return new Pair(x * val, y * val);
-    }
-    
-    public void flipX(){
-	x = -x;
-    }
-    
-    public void flipY(){
-	y = -y;
-    }
-    @Override
-    public boolean equals(pair compare){
-    	boolean equal=false;
-	if(x==compare.x&&y==compare.y){
-		equal=true;
+	public double x;
+	public double y;
+	
+	public Pair(double initX, double initY){
+		x = initX;
+		y = initY;
 	}
-	return true
-    }
+	
+	public Pair add(Pair toAdd){
+		return new Pair(x + toAdd.x, y + toAdd.y);
+	}
+	
+	public Pair divide(double denom){
+		return new Pair(x / denom, y / denom);
+	}
+	
+	public Pair times(double val){
+		return new Pair(x * val, y * val);
+	}
+	
+	public void flipX(){
+		x = -x;
+	}
+	
+	public void flipY(){
+		y = -y;
+	}
+	
+	@Override
+	public boolean equals(pair compare){
+		boolean equal=false;
+		if(x==compare.x&&y==compare.y){
+			equal=true;
+		}
+		return equal;
+	}
 }
-class obstacles{
+class Obstacle{
 	double speed;
 	int size;
 	int type;
 	pair position
 	Scanner pictureFinder;
+	Random rand;
+	
 	public obstacles(File picture){	
 		pictureFinder=new Scanner(picture);	
-		speed=rand.nextdouble(10);	
-
+		rand=new Random;
+		speed=0.0+rand.nextInt(10);
 	}
-	public void update(World w,){
-		position=position.times(speed)
+	
+	public void update(World w,double time){
+		position.x=position.x+speed*time;
+	}
 }	
 
 class powerup{
@@ -102,10 +114,10 @@ class powerup{
 	position
 	}
 }
- 
- class UserInput{
- 
-}
-class terrain{
 
+class terrain{
+	public terrain(int type){
+		zone(type);
+	
+	}
 }
