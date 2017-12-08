@@ -75,11 +75,11 @@ public class Frogger extends JPanel implements KeyListener{
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		for (int i = 1; i < 13; i++){
-			if i % 3 = 2
-			g.setColor(Color.GREEN);
-			if i % 3 = 1 	
+			if i % 3 == 2
+			g.setColor(Color.GREEN);	
+			if i % 3 == 1 	
 			g.setColor(Color.GREY);
-			if i % 3 = 0
+			if i % 3 == 0
 			g.setColor(Color.BLUE);
 			(g.fill(new Rectangle 2D.Double(0, i*HEIGHT/12, width, HEIGHT/12));
 		}
@@ -91,8 +91,9 @@ class World{
 	int numObstacles;
 	Obstacle obstacles[];
 	Terrain zone;
-	
+	userObject player;
 	public World(int initWidth, int initHeight,int numObstacle){
+		
 		width = initWidth;
 		height = initHeight;
 		obstacles=new Obstacle[numObstacle];
@@ -102,7 +103,7 @@ class World{
 	
 	}
 
-	public void gameOver(){
+	public void gameOver(Graphics g){
 
 	}
 	
@@ -136,10 +137,13 @@ class World{
 	
 	public void updateState(double time){
 	paint component(frogger);
+		zone.build(1);
 		for (int i = 0; i < numSpheres; i++){
 			obstacles[i].update(this, time);
+			g.drawobstacles[i].position.x
 		}
 		stillAlive(this);
+		
 	}
 
 }
