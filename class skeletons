@@ -100,10 +100,15 @@ class Obstacle{
 	public obstacles(){	
 		rand=new Random;
 		speed=0.0+rand.nextInt(10);
+		position
 	}
 	
-	public void update(World w,double time){
+	public void update(double time){
 		position.x=position.x+speed*time;
+	}
+	public void draw(Graphics g){
+		g.drawRect(position.x,position.y,size,);
+	
 	}
 }	
 
