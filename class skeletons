@@ -48,6 +48,12 @@ class obstacles{
 	position = position.add(velocity.times(time));
 	
 	}
+	
+	public void draw(Graphics g){
+	g.drawImage(position.x, position.y);
+	}
+	
+	
 }	
 
 class powerup{
