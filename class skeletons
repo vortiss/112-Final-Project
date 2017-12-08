@@ -97,8 +97,7 @@ class Obstacle{
 	Scanner pictureFinder;
 	Random rand;
 	
-	public obstacles(File picture){	
-		pictureFinder=new Scanner(picture);	
+	public obstacles(){	
 		rand=new Random;
 		speed=0.0+rand.nextInt(10);
 	}
@@ -117,14 +116,22 @@ class powerup{
 
 class terrain{
 	
-	public terrain(int type,){
-		zone(type);
+	public terrain(int type,Graphics g){
+		build(type, g);
 	
 	}
 	
-	public void zone(int type, Graphics g){
+	public void build(int type, Graphics g){
 		if(type==1){
-			
+			for (int i = 1; i < 13; i++){
+				if i % 3 == 2
+				g.setColor(Color.GREEN);
+				if i % 3 == 1 	
+				g.setColor(Color.GREY);
+				if i % 3 == 0
+				g.setColor(Color.BLUE);
+				(g.fill(new Rectangle 2D.Double(0, i*HEIGHT/12, width, HEIGHT/12));
+			}
 		}
 	}
 }
