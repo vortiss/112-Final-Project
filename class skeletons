@@ -37,63 +37,127 @@ public class Frogger extends JPanel{
 }
 
 class userObject{
-int lives;
+	private static int lives;
+	pair position;
+	image player;
+	private boolean alive;
+	
+	public static userObject(World w){
+		alive=true;
+		lives=3;
+		position(w.initWidth/2,w.initHeight-/*Ycoordinate of the top left corner of the sprite*/);
+		
+	}
+	
+	public void move(char c, World w){
+		if(c=='w'){
+			position.y=position.y-30;
+		}
+		if(c=='a'){
+			position.x=position.x-30;
+		}
+		if(c=='s'){
+			position.y=position.y+30;
+		}
+		if(c=='d'){
+			position.x=position.x+30;
+		}
+		stillAlive(w);
+	}
+	
+	public void stillAlive(World w){
+		int i=0;
+		while(alive&&i<world.obstacles.size()){
+			if(position.equals(world.obstacles[i].position)){
+				alive=false;
+			}
+			i++;
+		}
+		if(!alive&&lives>0){
+			lives=lives-1;
+			position.x=w.initWidth/2
+			position.y=/*Y coordinate of the top left corner of sprite at the the start*/
+			alive=true;
+		}
+		else{ w.gameover();}
+	}
 
 }
 class Pair{
-    public double x;
-    public double y;
-    
-    public Pair(double initX, double initY){
-	x = initX;
-	y = initY;
-    }
-    
-    public Pair add(Pair toAdd){
-	return new Pair(x + toAdd.x, y + toAdd.y);
-    }
-    
-    public Pair divide(double denom){
-	return new Pair(x / denom, y / denom);
-    }
-    
-    public Pair times(double val){
-	return new Pair(x * val, y * val);
-    }
-    
-    public void flipX(){
-	x = -x;
-    }
-    
-    public void flipY(){
-	y = -y;
-    }
+	public double x;
+	public double y;
+	
+	public Pair(double initX, double initY){
+		x = initX;
+		y = initY;
+	}
+	
+	public Pair add(Pair toAdd){
+		return new Pair(x + toAdd.x, y + toAdd.y);
+	}
+	
+	public Pair divide(double denom){
+		return new Pair(x / denom, y / denom);
+	}
+	
+	public Pair times(double val){
+		return new Pair(x * val, y * val);
+	}
+	
+	public void flipX(){
+		x = -x;
+	}
+	
+	public void flipY(){
+		y = -y;
+	}
+	
+	@Override
+	public boolean equals(pair compare){
+		boolean equal=false;
+		if(x==compare.x&&y==compare.y){
+			equal=true;
+		}
+		return equal;
+	}
 }
-class obstacles{
-	int speed;
+class Obstacle{
+	double speed;
 	int size;
 	int type;
-	int posX
-	int posY;
+	pair position
 	Scanner pictureFinder;
-	public cars(File picture){	
-		picture=new Scanner(picture);	
-
-
+	Random rand;
+	
+	public obstacles(File picture){	
+		pictureFinder=new Scanner(picture);	
+		rand=new Random;
+		speed=0.0+rand.nextInt(10);
+	}
+	
+	public void update(World w,double time){
+		position.x=position.x+speed*time;
 	}
 }	
 
 class powerup{
-
+	pair position;
 	public powerup(){	
-	
+	position
 	}
 }
- 
- class UserInput{
- 
-}
-class terrain{
 
+class terrain{
+	
+	public terrain(int type,){
+		zone(type);
+	
+	}
+	
+	public void zone(int type, Graphics g){
+		if(type==1){
+			
+		}
+	}
 }
 
