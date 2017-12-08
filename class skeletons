@@ -5,138 +5,145 @@ import java.awt.event.KeyEvent;
 import java.awt.Graphics;
 
 class userObject{
-	private static int lives;
-	pair position;
-	image player;
-	private boolean alive;
+    private static int lives;
+    pair position;
+    image player;
+    private boolean alive;
+    
+    public static userObject(World w){
+	alive=true;
+	lives=3;
+	position(w.initWidth/2,w.initHeight-/*Ycoordinate of the top left corner of the sprit*/);
 	
-	public static userObject(World w){
-		alive=true;
-		lives=3;
-		position(w.initWidth/2,w.initHeight-/*Ycoordinate of the top left corner of the sprite*/);
-		
+    }
+    
+    public void move(char c, World w){
+	if(c=='w'){
+	    position.y=position.y-30;
 	}
-	
-	public void move(char c, World w){
-		if(c=='w'){
-			position.y=position.y-30;
-		}
-		if(c=='a'){
-			position.x=position.x-30;
-		}
-		if(c=='s'){
-			position.y=position.y+30;
-		}
-		if(c=='d'){
-			position.x=position.x+30;
-		}
-		stillAlive(w);
+	if(c=='a'){
+	    position.x=position.x-30;
 	}
-	
-	public void stillAlive(World w){
-		int i=0;
-		while(alive&&i<world.obstacles.size()){
-			if(position.equals(world.obstacles[i].position)){
+	if(c=='s'){
+	    position.y=position.y+30;
+	}
+	if(c=='d'){
+	    position.x=position.x+30;
+	}
+	stillAlive(w);
+    }
+    
+    public void stillAlive(World w){
+	int i=0;
+	while(alive&&i<world.obstacles.size()){
+	    if(position.equals(world.obstacles[i].position)){
 				alive=false;
-			}
-			i++;
-		}
-		if(!alive&&lives>0){
-			lives=lives-1;
-			position.x=w.initWidth/2
-			position.y=/*Y coordinate of the top left corner of sprite at the the start*/
-			alive=true;
-		}
-		else{ w.gameover();}
+	    }
+	    i++;
 	}
-
+	if(!alive&&lives>0){
+	    lives=lives-1;
+	    position.x=w.initWidth/2
+		position.y=/*Y coordinate of the top left corner of sprite at the the start*/;
+	    alive=true;
+	}
+	else{ w.gameover();}
+    }
+    
 }
+
 class Pair{
-	public double x;
-	public double y;
-	
-	public Pair(double initX, double initY){
-		x = initX;
-		y = initY;
-	}
-	
-	public Pair add(Pair toAdd){
-		return new Pair(x + toAdd.x, y + toAdd.y);
-	}
-	
-	public Pair divide(double denom){
-		return new Pair(x / denom, y / denom);
-	}
-	
-	public Pair times(double val){
-		return new Pair(x * val, y * val);
-	}
-	
-	public void flipX(){
-		x = -x;
-	}
-	
-	public void flipY(){
-		y = -y;
-	}
-	
-	@Override
+    public double x;
+    public double y;
+    
+    public Pair(double initX, double initY){
+	x = initX;
+	y = initY;
+    }
+    
+    public Pair add(Pair toAdd){
+	return new Pair(x + toAdd.x, y + toAdd.y);
+    }
+    
+    public Pair divide(double denom){
+	return new Pair(x / denom, y / denom);
+    }
+    
+    public Pair times(double val){
+	return new Pair(x * val, y * val);
+    }
+    
+    public void flipX(){
+	x = -x;
+    }
+    
+    public void flipY(){
+	y = -y;
+    }
+    
+    @Override
 	public boolean equals(pair compare){
-		boolean equal=false;
-		if(x==compare.x&&y==compare.y){
-			equal=true;
-		}
-		return equal;
+	boolean equal=false;
+	if(x==compare.x&&y==compare.y){
+	    equal=true;
 	}
+	return equal;
+    }
 }
 class Obstacle{
-	double speed;
-	int size;
-	int type;
-	pair position
-	Scanner pictureFinder;
-	Random rand;
-	
-	public obstacles(){	
-		rand=new Random;
-		speed=0.0+rand.nextInt(10);
-		position
+    double speed;
+    pair size;
+    int type;
+    Pair position;
+    Scanner pictureFinder;
+    Random rand;
+    
+    public obstacles(world w){	
+	rand=new Random;
+	speed=0.0+rand.nextInt(10);
+	if(rand.nextInt(100)<50){
+	    size=new Pair(w.initWidth,w.initHeight);
 	}
+	else size=new Pair(0,w.initHeight/12);
 	
-	public void update(double time){
-		position.x=position.x+speed*time;
-	}
-	public void draw(Graphics g){
-		g.drawRect(position.x,position.y,size,);
-	
-	}
-}	
+    }
+    
+    public void update(World w,double time){
+	position.x=position.x+speed*time;
+    }
+    public void draw(Graphics g){	
+	g.drawRect(position.x,position.y,size.x,size.y);
+    }	
+}
 
 class powerup{
-	pair position;
-	public powerup(){	
-	position
-	}
+    pair position;
+    Random rand;
+    public powerup(){
+	rand=new Random;	
+	position=new pair(0.0+rand.nextInt,0.0+rand.nextInt);
+    }
 }
 
 class terrain{
+    
+    public terrain(int type,Graphics g){
+	build(type, g);
 	
-	public terrain(int type,Graphics g){
-		build(type, g);
-	
-	}
-	
-	public void build(int type, Graphics g){
-		if(type==1){
-			for (int i = 1; i < 13; i++){
-				if i % 3 == 2
-				g.setColor(Color.GREEN);
-				if i % 3 == 1 	
-				g.setColor(Color.GREY);
-				if i % 3 == 0
-				g.setColor(Color.BLUE);
-				(g.fill(new Rectangle 2D.Double(0, i*HEIGHT/12, width, HEIGHT/12));
-			}
+    }
+    
+    public void build(int type, Graphics g){
+	if(type==1){
+	    for (int i = 1; i < 13; i++){
+		if (i % 3 == 2)
+		    g.setColor(Color.GREEN);
+		if (i % 3 == 1) 	
+		    g.setColor(Color.GREY);
+		if(i % 3 == 0){
+		    g.setColor(Color.BLUE);
+		    (g.fill(new Rectangle 2D.Double(0, i*HEIGHT/12, width, HEIGHT/12)));
 		}
+	    }
 	}
+    }	
 }
