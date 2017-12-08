@@ -83,6 +83,7 @@ public class Frogger extends JPanel implements KeyListener{
 			g.setColor(Color.BLUE);
 			(g.fill(new Rectangle 2D.Double(0, i*HEIGHT/12, width, HEIGHT/12));
 		}
+		world.draw
 	}
 }
 class World{
@@ -145,5 +146,10 @@ class World{
 		stillAlive(this);
 		
 	}
-
+	public drawObstacles(Graphics g){
+	for (int i = 0; i < numObstacles; i++){
+	obstacles[i].draw(g);
+	}
+	
+	}
 }
