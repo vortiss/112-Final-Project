@@ -23,21 +23,30 @@ class Pair{
     public Pair add(Pair toAdd){
 	return new Pair(x + toAdd.x, y + toAdd.y);
     }
+    public Pair times(double val){
+    return new Pair(x * val, y * val);
+    }
     
  
 }
 class obstacles{
 	Pair position;
-	int velocity;
+	Pair velocity;
 	int size;
 	int type;
 	Scanner pictureFinder;
 	
 	
 	public obstacles(File picture){	
+		Random rand = new Random;
 		picture=new Scanner(picture);	
 		position = new Pair(x,y) // x will either be 0 or the right most side of frame, y will be middle of respective row
-		
+		velocity = new Pair(0, rand.nextInt(*some value*));
+	}
+	
+	public void update(World w, double time){
+	position = position.add(velocity.times(time));
+	
 	}
 }	
 
