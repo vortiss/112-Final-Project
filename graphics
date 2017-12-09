@@ -27,37 +27,25 @@ public class Frogger extends JPanel implements KeyListener{
 		}
 	    
 	}
-    
-    public void keyPressed(KeyEvent e) {
-	char c=e.getKeyChar();
-	System.out.println("You pressed down: " + c);
-	commands(e);
+	
+	public void keyPressed(KeyEvent e) {
+		commands(e);
     }
     
-    public void keyReleased(KeyEvent e) {
-	char c=e.getKeyChar();
-	System.out.println("\tYou let go of: " + c);
-    }
-    
-    public void keyTyped(KeyEvent e) {
-	char c = e.getKeyChar();
-	System.out.println("You typed: " + c);
-    }
-    
-    public void addNotify() {
-	super.addNotify();
-	requestFocus();
+	public void addNotify() {
+		super.addNotify();
+		requestFocus();
     }
     
     public void commands(KeyEvent e){
-	char c=e.getK0eyChar();
+	char c=e.getKeyChar();
 	if(c=='w'||c=='a'||c=='s'||c=='d'){
 	    userObject.move(c,world);
 	}
     }
     
     public Frogger(){
-	world = new World(WIDTH, HEIGHT,5*initHeight/12);
+	world = new World(WIDTH, HEIGHT,5*HEIGHT/12);
 	addKeyListener(this);
 	this.setPreferredSize(new Dimension(WIDTH, HEIGHT));
 	Thread mainThread = new Thread(new Runner());
@@ -101,33 +89,6 @@ class World{
 	
     }
     
-    public void keyPressed(KeyEvent e) {
-	char c=e.getKeyChar();
-	System.out.println("You pressed down: " + c);
-	commands(e);
-    }
-    
-    public void keyReleased(KeyEvent e) {
-	char c=e.getKeyChar();
-	System.out.println("\tYou let go of: " + c);
-    }
-    
-    public void keyTyped(KeyEvent e) {
-	char c = e.getKeyChar();
-	System.out.println("You typed: " + c);
-    }
-    
-    public void addNotify() {
-	super.addNotify();
-	requestFocus();
-    }
-    
-    public void commands(KeyEvent e){
-	char c=e.getKeyChar();
-	if(c=='w'||c=='a'||c=='s'||c=='d'){
-	    userObject.move(c,world);
-	}
-    }
     
     public void updateState(double time){
 	for (int i = 0; i < numSpheres; i++){
