@@ -73,14 +73,6 @@ class Pair{
 	return new Pair(x * val, y * val);
     }
     
-    public void flipX(){
-	x = -x;
-    }
-    
-    public void flipY(){
-	y = -y;
-    }
-    
     @Override
 	public boolean equals(pair compare){
 	boolean equal=false;
