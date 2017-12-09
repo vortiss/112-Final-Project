@@ -68,8 +68,8 @@ public class Frogger extends JPanel implements KeyListener{
     }
 }
 class World{
-    int height;
-    int width;
+    static int height;
+    static int width;
     int numObstacles;
     Obstacle obstacles[];
     Terrain zone;
@@ -80,7 +80,7 @@ class World{
 	height = initHeight;
 	obstacles=new Obstacle[numObstacle];
 	for(int i=0; i< obstacles.length();i++){
-	    obstacles[i]=new obstacle;
+	    obstacles[i]=new obstacle();
 	}
 	
     }
