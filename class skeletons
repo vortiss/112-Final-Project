@@ -84,28 +84,52 @@ class Pair{
 }
 class Obstacle{
     double speed;
-    pair size;
+    Pair size;
     int type;
     Pair position;
     Scanner pictureFinder;
     Random rand;
     
-    public obstacles(world w){	
-	rand=new Random;
+    public obstacles(){	
+
 	speed=0.0+rand.nextInt(10);
+	for (int i = 1; i < 5; i++){
 	if(rand.nextInt(100)<50){
-	    size=new Pair(w.initWidth,w.initHeight);
+	    size=new Pair(5,10);
+	    position = (0, world.height/36*(4) + 9*i);
+	    position= (0, world.height/36*(5) + 9*i);
 	}
-	else size=new Pair(0,w.initHeight/12);
-	
+	else {
+	size = new Pair(5,10);
+	position =(world.width, world.height/36*4 + 9*i);
+	position = (world.width, world.height/36*5 + 9*i);
+	}
+}
     }
     
     public void update(double time){
 	position.x=position.x+speed*time;
     }
     public void draw(Graphics g){	
+    
+	    for (int i = 1; i < 13; i++){
+		if (i % 3 == 2)
+		    {g.setColor(Color.GREEN);}
+		if (i % 3 == 1) 	
+		    {g.setColor(Color.GREY);}
+		if(i % 3 == 0)
+		    {g.setColor(Color.BLUE);}
+		    (g.fill(new Rectangle 2D.Double(0, i*HEIGHT/12, width, HEIGHT/12)));
+		
 	g.drawRect(position.x,position.y,size.x,size.y);
     }	
+}
+
+class environmentalObjects{
+double speed; 
+pair size;
+int type;
+
 }
 
 class powerup{
@@ -119,13 +143,13 @@ class powerup{
 
 class terrain{
     
-    public terrain(int type,Graphics g){
-	build(type, g);
+    public terrain(Graphics g){
+	build( g);
 	
     }
     
-    public void build(int type, Graphics g){
-	if(type==1){
+    public void build( Graphics g){
+	
 	    for (int i = 1; i < 13; i++){
 		if (i % 3 == 2)
 		    {g.setColor(Color.GREEN);}
@@ -135,7 +159,7 @@ class terrain{
 		    {g.setColor(Color.BLUE);}
 		    (g.fill(new Rectangle 2D.Double(0, i*HEIGHT/12, width, HEIGHT/12)));
 		
-	    }
+	    
 	}
     }	
 }
