@@ -5,83 +5,81 @@ import java.awt.event.KeyEvent;
 import java.awt.Graphics;
 
 class userObject{
-    private static int lives;
-    pair position;
-    image player;
-    private boolean alive;
-    
-    public static userObject(World w){
-	alive=true;
-	lives=3;
-	position(w.initWidth/2,w.initHeight-/*Ycoordinate of the top left corner of the sprit*/);
+	private static int lives;
+	pair position;
+	image player;
+	private boolean alive;
 	
-    }
-    
-    public void move(char c, World w){
-	if(c=='w'){
-	    position.y=position.y-30;
+	public static userObject(World w){
+		alive=true;
+		lives=3;
+		position(w.width/2,w.height-/*Ycoordinate of the top left corner of the sprit*/);
 	}
-	if(c=='a'){
-	    position.x=position.x-30;
+	public void move(char c, World w){
+		if(c=='w'){
+			position.y=position.y-30;
+		}
+		if(c=='a'){
+			position.x=position.x-30;
+		}
+		if(c=='s'){
+			position.y=position.y+30;
+		}
+		if(c=='d'){
+			position.x=position.x+30;
+		}
+		stillAlive(w);
 	}
-	if(c=='s'){
-	    position.y=position.y+30;
+	
+	public void stillAlive(World w){
+		int i=0;
+		while(alive&&i<world.obstacles.size()){
+		if(position.equals(world.obstacles[i].position)){
+			alive=false;
+		}
+			i++;
+		}
+		if(!alive&&lives>0){
+			lives=lives-1;
+			position.x=w.initWidth/2
+			position.y=/*Y coordinate of the top left corner of sprite at the the start*/;
+			alive=true;
+		}
+		else{ w.gameover();}
 	}
-	if(c=='d'){
-	    position.x=position.x+30;
-	}
-	stillAlive(w);
-    }
-    
-    public void stillAlive(World w){
-	int i=0;
-	while(alive&&i<world.obstacles.size()){
-	    if(position.equals(world.obstacles[i].position)){
-				alive=false;
-	    }
-	    i++;
-	}
-	if(!alive&&lives>0){
-	    lives=lives-1;
-	    position.x=w.initWidth/2
-		position.y=/*Y coordinate of the top left corner of sprite at the the start*/;
-	    alive=true;
-	}
-	else{ w.gameover();}
-    }
     
 }
 
 class Pair{
-    public double x;
-    public double y;
-    
-    public Pair(double initX, double initY){
-	x = initX;
-	y = initY;
-    }
-    
-    public Pair add(Pair toAdd){
-	return new Pair(x + toAdd.x, y + toAdd.y);
-    }
-    
-    public Pair divide(double denom){
-	return new Pair(x / denom, y / denom);
-    }
-    
-    public Pair times(double val){
-	return new Pair(x * val, y * val);
-    }
-    
-    @Override
-	public boolean equals(pair compare){
-	boolean equal=false;
-	if(x==compare.x&&y==compare.y){
-	    equal=true;
+	public double x;
+	public double y;
+	
+	public Pair(double initX, double initY){
+		x = initX;
+		y = initY;
 	}
-	return equal;
-    }
+	
+	public Pair add(Pair toAdd){
+		return new Pair(x + toAdd.x, y + toAdd.y);
+	}
+	
+	public Pair divide(double denom){
+		return new Pair(x / denom, y / denom);
+	}
+	public Pair times(double val){
+		return new Pair(x * val, y * val);
+        }
+	
+	@Override
+	public boolean equals(pair compare){
+		boolean equal=false;
+		if(x==compare.x&&y==compare.y){
+	        	equal=true;
+		}
+		return equal;
+        }
 }
+
 class Obstacle{
     double speed;
     Pair size;
@@ -94,17 +92,17 @@ class Obstacle{
 
 	speed=0.0+rand.nextInt(10);
 	for (int i = 1; i < 5; i++){
-	if(rand.nextInt(100)<50){
-	    size=new Pair(5,10);
-	    position = (0, world.height/36*(4) + 9*i);
-	    position= (0, world.height/36*(5) + 9*i);
+		if(rand.nextInt(100)<50){
+		    size=new Pair(5,10);
+		    position = (0, world.height/36*(4) + 9*i);
+		    position= (0, world.height/36*(5) + 9*i);
+		}
+		else {
+			size = new Pair(5,10);
+			position =(world.width, world.height/36*4 + 9*i);
+			position = (world.width, world.height/36*5 + 9*i);
+		}
 	}
-	else {
-	size = new Pair(5,10);
-	position =(world.width, world.height/36*4 + 9*i);
-	position = (world.width, world.height/36*5 + 9*i);
-	}
-}
     }
     
     public void update(double time){
@@ -126,9 +124,9 @@ class Obstacle{
 }
 
 class environmentalObjects{
-double speed; 
-pair size;
-int type;
+	double speed; 
+	pair size;
+	int type;
 
 }
 
