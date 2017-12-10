@@ -38,6 +38,11 @@ class userObject{
 		stillAlive(w);
 	}
 	
+	public void draw(Graphics g){
+	
+	
+	}
+	
 	public void stillAlive(World w){
 		int i=0;
 		while(alive&&i<world.obstacles.size()){
@@ -52,6 +57,8 @@ class userObject{
 			position.y=/*Y coordinate of the top left corner of sprite at the the start*/;
 			alive=true;
 		}
+	
+		
 		else{ if(!alive&&lives<=0) w.gameover(); }
 	}
     
