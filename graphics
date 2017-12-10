@@ -45,7 +45,7 @@ public class Frogger extends JPanel implements KeyListener{
     }
     
     public Frogger(){
-	world = new World(WIDTH, HEIGHT,5*HEIGHT/12);
+	world = new World(WIDTH, HEIGHT,16,16);
 	addKeyListener(this);
 	this.setPreferredSize(new Dimension(WIDTH, HEIGHT));
 	Thread mainThread = new Thread(new Runner());
@@ -72,22 +72,68 @@ class World{
     static int width;
     int numObstacles;
     Obstacle obstacles[];
+    environmentalObjects logs[];
     Terrain zone;
     userObject player;
-    public World(int initWidth, int initHeight,int numObstacle){
-	
+    Pair position[];
+    Pair positionlogs[];
+   
+    public World(int initWidth, int initHeight,int numObstacle, int numLog){
+		position[] = new Pair[numObstacle];
+		positionlogs[] = newPair[numLog];
+		obstacles=new Obstacle[numObstacle];
+		logs = new environmentalObjects[numLog];
+		
+		for (int i=0; i<numObstacle/4 i++){
+		    position[i] = (0, height/36*(4) + 9*i);   
+		    }
+		for (int i = numObstacle/4; i < numObstacle/2; i++){
+		position[i] = (0,height/36*5 + 9*i)
+		}
+		for (int i = numObstacle/2; i < numObstacle*3/4; i++){
+			position[i] = (width, height/36*4 + 9*i);	
+		}
+		for (int i = numObstacle*3/4; i<numObstacle; i++){
+			position[i] = (width, height/36*5 + 9*i);
+		}
+		
+		for (int i=; i<numLog/4 i++){
+		    positionlogs[i] = (0, height/36*(7) + 9*i);   
+		    }
+		for (int i = numLog/2; i < numObstacle/2; i++){
+		positionlogs[i] = (0,height/36*8 + 9*i)
+		}
+		for (int i = numObstacle/2; i < numObstacle*3/4; i++){
+			positionlogs[i] = (width, height/36*7 + 9*i);	
+		}
+		for (int i = numObstacle*3/4; i<numObstacle; i++){
+			positionlogs[i] = (width, height/36*8 + 9*i);
+		}
+		
+		
 	width = initWidth;
 	height = initHeight;
-	obstacles=new Obstacle[numObstacle];
-	for(int i=0; i< obstacles.length();i++){
-	    obstacles[i]=new obstacle();
-	}
 	
+	for(int i=0; i < numObstacle;i++){
+	if (i < numObstacle / 2)
+	    obstacles[i]=new Obstacle(position[i], 1);
+	}
+	if (i > numObstacle/2)
+	    obstacles[i] = new Obstacle(position[i], 0);
+    }
+    
+    for(int i=0; i < numLog; i++){
+	if (i < numLog / 2)
+	    logs[i]=new environmentalObject(position[i], 1);
+	}
+	if (i > numLog/2)
+	    logs[i] = new environmentalObject(position[i], 0);
     }
     
     public void gameOver(Graphics g){
 	
     }
+    
     
     
     public void updateState(double time){
@@ -99,7 +145,7 @@ class World{
 	
     }
     public void drawObstacles(Graphics g){
-	for(int i=0;i<obstacles.length();i++){
+	for(int i=0;i<numObstacle;i++){
 	    obstacles[i].draw(g);
 	}	
     }
