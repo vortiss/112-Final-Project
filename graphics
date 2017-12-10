@@ -64,6 +64,8 @@ public class Frogger extends JPanel implements KeyListener{
 	super.paintComponent(g);
 	world.zone.build(1,g);
 	world.drawObstacles(g);
+	world.drawLogs(g);
+	world.drawUserObject;
 	
     }
 }
@@ -77,12 +79,14 @@ class World{
     userObject player;
     Pair position[];
     Pair positionlogs[];
+    userObject frog;
    
     public World(int initWidth, int initHeight,int numObstacle, int numLog){
 		position[] = new Pair[numObstacle];
 		positionlogs[] = newPair[numLog];
 		obstacles=new Obstacle[numObstacle];
 		logs = new environmentalObjects[numLog];
+		frog = new userObject;
 		
 		for (int i=0; i<numObstacle/4 i++){
 		    position[i] = (0, height/36*(4) + 9*i);   
@@ -130,10 +134,30 @@ class World{
 	    logs[i] = new environmentalObject(position[i], 0);
     }
     
-    public void gameOver(Graphics g){
+    public void gameOver(Graphics g){ 
 	
     }
+    public boolean incontact(){
+        for (int i = 0; i < numLog; i++){
+    if (((frog.x <= (logs[i].x + logs[i].size.x)) && (frog.x >= logs[i].x) && (frog.y >= logs[i].y) && (frog.y <= (logs[i].y + logs[i].size.y)) ||
+    (((frog.x + frog.width) <= (logs[i].x + logs[i].size.x)) && ((frog.x + frog.width) >= logs[i].x) && (frog.y >= logs[i].y) 
+    && (frog.y <= (logs[i].y + logs[i].size.y)))
+    return true;
+    }
+    	else {return false;}
+
+    }
+    public environmentalObject contactLog(){
+    for (int i = 0; i < numLog; i++){
+    if (((frog.x <= (logs[i].x + logs[i].size.x)) && (frog.x >= logs[i].x) && (frog.y >= logs[i].y) && (frog.y <= (logs[i].y + logs[i].size.y)) ||
+    (((frog.x + frog.width) <= (logs[i].x + logs[i].size.x)) && ((frog.x + frog.width) >= logs[i].x) && (frog.y >= logs[i].y) 
+    && (frog.y <= (logs[i].y + logs[i].size.y)))
     
+    return logs[i];
+    
+    }
+    
+    }
     
     
     public void updateState(double time){
@@ -148,6 +172,16 @@ class World{
 	for(int i=0;i<numObstacle;i++){
 	    obstacles[i].draw(g);
 	}	
+    }
+    public void drawLogs(Graphics g){
+    	for (int i = 0; i < numLog; i ++){
+    		logs[i].draw(g);
+    
+    	}
+    }
+    
+    public void drawUserObject(Graphics g){
+    frog.draw(g);
     }
     
 }
