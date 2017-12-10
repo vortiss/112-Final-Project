@@ -148,6 +148,13 @@ class environmentalObjects{
     
     public void update(double time){
 	position.x=position.x+speed*time;
+	if (speed < 0)
+		if (position.x <= 0)
+			position.x = World.width;
+			
+	if (speed > 0)
+		if (position.x >= World.width)
+			position.x = 0;
     }
     public void draw(Graphics g){	
     
