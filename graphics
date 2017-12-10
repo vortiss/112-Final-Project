@@ -86,9 +86,9 @@ class World{
 		
 		for (int i=0; i<numObstacle/4 i++){
 		    position[i] = (0, height/36*(4) + 9*i);   
-		    }
+		}
 		for (int i = numObstacle/4; i < numObstacle/2; i++){
-		position[i] = (0,height/36*5 + 9*i)
+			position[i] = (0,height/36*5 + 9*i)
 		}
 		for (int i = numObstacle/2; i < numObstacle*3/4; i++){
 			position[i] = (width, height/36*4 + 9*i);	
@@ -99,9 +99,9 @@ class World{
 		
 		for (int i=; i<numLog/4 i++){
 		    positionlogs[i] = (0, height/36*(7) + 9*i);   
-		    }
+		}
 		for (int i = numLog/2; i < numObstacle/2; i++){
-		positionlogs[i] = (0,height/36*8 + 9*i)
+			positionlogs[i] = (0,height/36*8 + 9*i)
 		}
 		for (int i = numObstacle/2; i < numObstacle*3/4; i++){
 			positionlogs[i] = (width, height/36*7 + 9*i);	
@@ -131,7 +131,10 @@ class World{
     }
     
     public void gameOver(Graphics g){
-	
+    	g.setColor(0,0,0);	
+	g.drawRect(0,0,width,height);
+	g.setColor(179,6,0);
+	g.drawString("You've died not once, not twice, but thrice. Press R to restart", width/2, hieght/2);
     }
     
     
@@ -144,6 +147,7 @@ class World{
 	stillAlive(this);
 	
     }
+    
     public void drawObstacles(Graphics g){
 	for(int i=0;i<numObstacle;i++){
 	    obstacles[i].draw(g);
