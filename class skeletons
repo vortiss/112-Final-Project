@@ -205,15 +205,18 @@ class terrain{
 }
 
 public class ImageInput{
-	public ImageInput(){
+
+	public ImageInput(String pictureName){
 	 	try{
-      			BufferedImage animal = ImageIO.read(new File("/Users/al/some-picture.jpg"));
+      			BufferedImage animal = ImageIO.read(new File("/Users/al/"+pictureName+".png"));
      		} 
-    	catch (IOException e){}
-  }
-
-  public static void main(String[] args){
-    new ImageInput();
-  }
-
+    		catch (IOException e){}
+	}
+	
+	public void changePicture(String PictureName){
+		try{
+			BufferedImage animal=ImageIO.read(new File("Users/al/"+pictureName+".png"));
+		}
+		catch(IOException e){}
+	}
 }
