@@ -14,6 +14,7 @@ class userObject{
 		alive=true;
 		lives=3;
 		position(w.width/2,w.height-/*Ycoordinate of the top left corner of the sprit*/);
+		player = imageInput();
 	}
 	public void move(char c, World w){
 		if(c=='w'){
@@ -178,4 +179,32 @@ class terrain{
 	    
 	}
     }	
+}
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import javax.imageio.ImageIO;
+
+public class ImageInput
+{
+
+  public ImageInput()
+  {
+    try
+    {
+      
+      BufferedImage animal = ImageIO.read(new File("/Users/al/some-picture.jpg"));
+     
+    } 
+    catch (IOException e)
+    {
+      
+    }
+  }
+
+  public static void main(String[] args)
+  {
+    new ImageInput();
+  }
+
 }
