@@ -80,6 +80,9 @@ class Pair{
         }
 }
 
+
+}
+
 class Obstacle{
     double speed;
     Pair size;
@@ -88,20 +91,18 @@ class Obstacle{
     Scanner pictureFinder;
     Random rand;
     
-    public obstacles(){	
-
-	speed=0.0+rand.nextInt(10);
-	for (int i = 1; i < 5; i++){
-		if(rand.nextInt(100)<50){
-		    size=new Pair(5,10);
-		    position = (0, world.height/36*(4) + 9*i);
-		    position= (0, world.height/36*(5) + 9*i);
-		}
-		else {
-			size = new Pair(5,10);
-			position =(world.width, world.height/36*4 + 9*i);
-			position = (world.width, world.height/36*5 + 9*i);
-		}
+    public Obstacle(Pair p, int leftorright){	
+	if (leftorright == 1){
+	speed=0.0+rand.nextDouble(10.0);
+	}
+	else {
+	speed = 0.0 - rand.nextDouble(10.0);
+	}
+	size = new Pair(10,5);
+	position.x = p.x;
+	position.y = p.y;
+	
+	
 	}
     }
     
@@ -110,24 +111,41 @@ class Obstacle{
     }
     public void draw(Graphics g){	
     
-	    for (int i = 1; i < 13; i++){
-		if (i % 3 == 2)
-		    {g.setColor(Color.GREEN);}
-		if (i % 3 == 1) 	
-		    {g.setColor(Color.GREY);}
-		if(i % 3 == 0)
-		    {g.setColor(Color.BLUE);}
-		    (g.fill(new Rectangle 2D.Double(0, i*HEIGHT/12, width, HEIGHT/12)));
-		
 	g.drawRect(position.x,position.y,size.x,size.y);
     }	
 }
 
 class environmentalObjects{
-	double speed; 
-	pair size;
-	int type;
+ double speed;
+    Pair size;
+    int type;
+    Pair position;
+    Scanner pictureFinder;
+    Random rand;
 
+	 public environmentalObjects(Pair p, int leftorright){	
+	if (leftorright == 1){
+	speed=0.0+rand.nextDouble(10.0);
+	}
+	else {
+	speed = 0.0 - rand.nextDouble(10.0);
+	}
+	size = new Pair(10,5);
+	position.x = p.x;
+	position.y = p.y;
+	
+	
+	}
+    }
+    
+    public void update(double time){
+	position.x=position.x+speed*time;
+    }
+    public void draw(Graphics g){	
+    
+	g.drawRect(position.x,position.y,size.x,size.y);
+    }	
+}
 }
 
 class powerup{
@@ -155,7 +173,7 @@ class terrain{
 		    {g.setColor(Color.GREY);}
 		if(i % 3 == 0)
 		    {g.setColor(Color.BLUE);}
-		    (g.fill(new Rectangle 2D.Double(0, i*HEIGHT/12, width, HEIGHT/12)));
+		    (g.fill(new Rectangle2D.Double(0, i*HEIGHT/12, width, HEIGHT/12)));
 		
 	    
 	}
