@@ -14,25 +14,42 @@ class userObject{
 	pair position;
 	image player;
 	private boolean alive;
+	imageInput pictureFinder;
+	String facing;
+	int width;
+	int height;
 	
 	public static userObject(World w){
+		width=/*however wide we want it*/
+		height=/*however tall we want it*/
+		Facing="Up";
 		alive=true;
 		lives=3;
 		position(w.width/2,w.height-/*Ycoordinate of the top left corner of the sprit*/);
-		player = imageInput();
+		player = pictureFinder(facing);
 	}
+	
 	public void move(char c, World w){
 	/*Find some way to make the animations smoother (adding more frames, probably through for loops) without fucking up the background*/
 		if(c=='w'){
+			facing="Up"
+			player=pictureFinder.changePicture(facing);
 			position.y=position.y-21.3;
+			
 		}
 		if(c=='a'){
+			facing="Left";
+			player=pictureFinder.changePicture(facing);
 			position.x=position.x-21.3;
 		}
 		if(c=='s'){
+			facing="Down";
+			player=pictureFinder.changePicture(facing);
 			position.y=position.y+21.3;
 		}
 		if(c=='d'){
+			facing="Right";
+			player=pictureFinder.changePicture(facing);
 			position.x=position.x+21.3;
 		}
 		stillAlive(w);
@@ -134,8 +151,9 @@ class environmentalObjects{
 	Pair size;
 	int type;
 	Pair position;
-	Scanner pictureFinder;
+	imageInput pictureFinder;
 	Random rand;
+	image object;
     	
 	public environmentalObjects(Pair p, int leftorright){	
 		if (leftorright == 1){
@@ -147,6 +165,7 @@ class environmentalObjects{
 		size = new Pair(10,5);
 		position.x = p.x;
 		position.y = p.y;
+		pictureFinder=new imageInput("log");
 	}
     
 
