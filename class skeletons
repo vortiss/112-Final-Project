@@ -26,30 +26,30 @@ class userObject{
 		alive=true;
 		lives=3;
 		position(w.width/2,w.height-/*Ycoordinate of the top left corner of the sprit*/);
-		player = pictureFinder(facing);
+		player = pictureFinder("Frogs_"+facing);
 	}
 	
 	public void move(char c, World w){
 	/*Find some way to make the animations smoother (adding more frames, probably through for loops) without fucking up the background*/
 		if(c=='w'){
 			facing="Up"
-			player=pictureFinder.changePicture(facing);
+			player=pictureFinder.changePicture("Frog_"+facing+"_Sprite_0");
 			position.y=position.y-21.3;
 			
 		}
 		if(c=='a'){
 			facing="Left";
-			player=pictureFinder.changePicture(facing);
+			player=pictureFinder.changePicture("Frog_"+facing+"_Sprite_0");
 			position.x=position.x-21.3;
 		}
 		if(c=='s'){
 			facing="Down";
-			player=pictureFinder.changePicture(facing);
+			player=pictureFinder.changePicture("Frog_"+facing+"_Sprite_0");
 			position.y=position.y+21.3;
 		}
 		if(c=='d'){
 			facing="Right";
-			player=pictureFinder.changePicture(facing);
+			player=pictureFinder.changePicture("Frog_"+facing+"_Sprite_0");
 			position.x=position.x+21.3;
 		}
 		stillAlive(w);
