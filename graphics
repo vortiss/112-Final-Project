@@ -162,10 +162,10 @@ class World{
     }
     
     
-    public void updateState(double time){
-	for (int i = 0; i < numSpheres; i++){
+    public void updateState(){
+	for (int i = 0; i < numObstacles; i++){
 		
-	    obstacles[i].update(this, time);
+	    obstacles[i].update(this);
 	    if incontact(){
 	    frog.position.x = contactLog().position.x;
 	    frog.position.y = contactLog().position.y;
