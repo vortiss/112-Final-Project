@@ -146,7 +146,7 @@ class World{
     		g.setColor(0,0,0);
 		g.drawRect(0,0,width,height);
 		g.setColor(202,13,13);
-		g.printString("You died not once, not twice, but thrice. Press R to try again.", (width/2)-63, height/2);
+		g.printString("You died not once, not twice, but thrice. Press p to play again; l to leave", (width/2)-63, height/2);
     }
     
     public boolean incontact(){
