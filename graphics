@@ -42,10 +42,10 @@ public class Frogger extends JPanel implements KeyListener{
 		if(c=='w'||c=='a'||c=='s'||c=='d'){
 	 	   userObject.move(c,world);
 		}
-		if(c=='r'){
+		if(c=='p'){
 			this=new Frogger;
 		}
-		if(c=='q'){
+		if(c=='l'){
 			System.exit(0);
 		}
     	}
