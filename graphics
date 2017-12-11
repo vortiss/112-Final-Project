@@ -65,7 +65,7 @@ public class Frogger extends JPanel implements KeyListener{
 	world.zone.build(1,g);
 	world.drawObstacles(g);
 	world.drawLogs(g);
-	world.drawUserObject;
+	world.drawUserObject(g);
 	
     }
 }
@@ -139,7 +139,7 @@ class World{
     }
     public boolean incontact(){
         for (int i = 0; i < numLog; i++){
-    if (((frog.x <= (logs[i].x + logs[i].size.x)) && (frog.x >= logs[i].x) && (frog.y >= logs[i].y) && (frog.y <= (logs[i].y + logs[i].size.y)) ||
+		if (((frog.x <= (logs[i].x + logs[i].size.x)) && (frog.x >= logs[i].x) && (frog.y >= logs[i].y) && (frog.y <= (logs[i].y + logs[i].size.y)) ||
     (((frog.x + frog.width) <= (logs[i].x + logs[i].size.x)) && ((frog.x + frog.width) >= logs[i].x) && (frog.y >= logs[i].y) 
     && (frog.y <= (logs[i].y + logs[i].size.y)))
     return true;
@@ -148,8 +148,8 @@ class World{
 
     }
     public environmentalObject contactLog(){
-    for (int i = 0; i < numLog; i++){
-    if (((frog.x <= (logs[i].x + logs[i].size.x)) && (frog.x >= logs[i].x) && (frog.y >= logs[i].y) && (frog.y <= (logs[i].y + logs[i].size.y)) ||
+    	for (int i = 0; i < numLog; i++){
+    		if (((frog.x <= (logs[i].x + logs[i].size.x)) && (frog.x >= logs[i].x) && (frog.y >= logs[i].y) && (frog.y <= (logs[i].y + logs[i].size.y)) ||
     (((frog.x + frog.width) <= (logs[i].x + logs[i].size.x)) && ((frog.x + frog.width) >= logs[i].x) && (frog.y >= logs[i].y) 
     && (frog.y <= (logs[i].y + logs[i].size.y)))
     
@@ -179,9 +179,7 @@ class World{
     
     	}
     }
-    
-    public void drawUserObject(Graphics g){
-    frog.draw(g);
-    }
-    
+	public void drawUserObject(Graphics g){
+		frog.draw(g);
+	}
 }
