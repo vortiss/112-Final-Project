@@ -38,7 +38,7 @@ public class Frogger extends JPanel implements KeyListener{
     }
     
     public void commands(KeyEvent e){
-	char c=e.getKeyChar();
+	char c= e.getKeyChar();
 	if(c=='w'||c=='a'||c=='s'||c=='d'){
 	    userObject.move(c,world);
 	}
@@ -134,9 +134,7 @@ class World{
 	    logs[i] = new environmentalObject(position[i], 0);
     }
     
-    public void gameOver(Graphics g){ 
-	
-    }
+    
     public boolean incontact(){
         for (int i = 0; i < numLog; i++){
     if (((frog.x <= (logs[i].position.x + logs[i].size.x)) && (frog.x >= logs[i].position.x) && 
@@ -160,7 +158,12 @@ class World{
     }
     
     }
-    
+    public void gameover(){
+	System.out.println("You are a loser!);
+	System.out.println("Press p to play, press l to leave game");
+
+	//System.exit(0);
+	}
     
     public void updateState(){
 	for (int i = 0; i < numObstacles; i++){
