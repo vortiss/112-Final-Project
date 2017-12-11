@@ -86,7 +86,7 @@ class World{
 		positionlogs[] = newPair[numLog];
 		obstacles=new Obstacle[numObstacle];
 		logs = new environmentalObjects[numLog];
-		frog = new userObject;
+		frog = new userObject(this);
 		
 		for (int i=0; i<numObstacle/4 i++){
 		    position[i] = (0, height/36*(4) + 9*i);   
