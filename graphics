@@ -42,6 +42,7 @@ public class Frogger extends JPanel implements KeyListener{
 	if(c=='w'||c=='a'||c=='s'||c=='d'){
 	    userObject.move(c,world);
 	}
+	/*use R to reset the screen*/
     }
     
     public Frogger(){
@@ -60,6 +61,7 @@ public class Frogger extends JPanel implements KeyListener{
 	frame.pack();
 	frame.setVisible(true);
     }
+    
     public void paintComponent(Graphics g) {
 	super.paintComponent(g);
 	world.zone.build(1,g);
@@ -69,6 +71,7 @@ public class Frogger extends JPanel implements KeyListener{
 	
     }
 }
+
 class World{
     static int height;
     static int width;
@@ -105,7 +108,7 @@ class World{
 		    positionlogs[i] = (0, height/36*(7) + 9*i);   
 		    }
 		for (int i = numLog/2; i < numObstacle/2; i++){
-		positionlogs[i] = (0,height/36*8 + 9*i)
+			positionlogs[i] = (0,height/36*8 + 9*i)
 		}
 		for (int i = numObstacle/2; i < numObstacle*3/4; i++){
 			positionlogs[i] = (width, height/36*7 + 9*i);	
@@ -135,8 +138,12 @@ class World{
     }
     
     public void gameOver(Graphics g){ 
-	
+    	g.setColor(0,0,0);
+	g.drawRect(0,0,width,height);
+	g.setColor(202,13,13);
+	g.printString("You died not once, not twice, but thrice. Press R to try again.", (width/2)-63, height/2);
     }
+    
     public boolean incontact(){
         for (int i = 0; i < numLog; i++){
     if (((frog.x <= (logs[i].position.x + logs[i].size.x)) && (frog.x >= logs[i].position.x) && 
@@ -180,6 +187,7 @@ class World{
 	    obstacles[i].draw(g);
 	}	
     }
+    
     public void drawLogs(Graphics g){
     	for (int i = 0; i < numLog; i ++){
     		logs[i].draw(g);
