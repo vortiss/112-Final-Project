@@ -31,7 +31,7 @@ class userObject{
 	}
 	
 	public void draw(g)[
-		g.drawImage(player, position.x,position.y,width,height 
+		g.drawImage(player, position.x,position.y,width,height,null); 
 	}
 	
 	public void move(char c, World w){
@@ -40,7 +40,6 @@ class userObject{
 			facing="Up"
 			player=pictureFinder.changePicture("Frog_"+facing+"_Sprite_0");
 			position.y=position.y-21.3;
-			
 		}
 		if(c=='a'){
 			facing="Left";
@@ -58,6 +57,7 @@ class userObject{
 			position.x=position.x+21.3;
 		}
 		stillAlive(w);
+		w.gameRunning.repaint();
 	}
 	
 	public void stillAlive(World w){
@@ -70,8 +70,8 @@ class userObject{
 		}
 		if(!alive&&lives>0){
 			lives=lives-1;
-			position.x=w.initWidth/2
-			position.y=/*Y coordinate of the top left corner of sprite at the the start*/;
+			position.x=0.0+w.initWidth/2
+			position.y=0.0+/*Y coordinate of the top left corner of sprite at the the start*/;
 			alive=true;
 		}
 		else{ if(!alive&&lives<=0) w.gameover(); }
@@ -107,7 +107,7 @@ class Pair{
 		}
 		return equal;
         }
-}
+
 
 
 }
@@ -160,7 +160,7 @@ class environmentalObjects{
 	Random rand;
 	image object;
     	
-	public environmentalObjects(Pair p, int leftorright){	
+	public environmentalObjects(Pair p, int leftorright){
 		if (leftorright == 1){
 			speed=10*rand.nextDouble();
 		}
@@ -184,7 +184,10 @@ class environmentalObjects{
 		if (position.x >= World.width)
 			position.x = 0;
     }
-    public void draw(Graphics g){	}
+    
+    public void draw(Graphics g){	
+    	
+    }
     
     	public void update(){
 		position.x=position.x+speed
@@ -221,7 +224,7 @@ class terrain{
 		    {g.setColor(Color.GREY);}
 		if(i % 3 == 0)
 		    {g.setColor(Color.BLUE);}
-		    (g.fill(new Rectangle2D.Double(0, i*HEIGHT/12, width, HEIGHT/12)));
+		    (g.fill(new Rectangle2D.Double(0,i*HEIGHT/12, width, HEIGHT/12)));
 		
 	    
 	}
