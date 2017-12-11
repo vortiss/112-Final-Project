@@ -139,19 +139,21 @@ class World{
     }
     public boolean incontact(){
         for (int i = 0; i < numLog; i++){
-    if (((frog.x <= (logs[i].x + logs[i].size.x)) && (frog.x >= logs[i].x) && (frog.y >= logs[i].y) && (frog.y <= (logs[i].y + logs[i].size.y)) ||
-    (((frog.x + frog.width) <= (logs[i].x + logs[i].size.x)) && ((frog.x + frog.width) >= logs[i].x) && (frog.y >= logs[i].y) 
-    && (frog.y <= (logs[i].y + logs[i].size.y)))
+    if (((frog.x <= (logs[i].position.x + logs[i].size.x)) && (frog.x >= logs[i].position.x) && 
+    (frog.y >= logs[i].position.y) && (frog.y <= (logs[i].position.y + logs[i].size.y)) || 
+    (((frog.x + frog.width) <= (logs[i].position.x + logs[i].size.x)) && ((frog.x + frog.width) >= logs[i].position.x)
+    && (frog.y >= logs[i].position.y) && (frog.y <= (logs[i].position.y + logs[i].size.y)))
     return true;
     }
     	else {return false;}
 
     }
     public environmentalObject contactLog(){
-    for (int i = 0; i < numLog; i++){
-    if (((frog.x <= (logs[i].x + logs[i].size.x)) && (frog.x >= logs[i].x) && (frog.y >= logs[i].y) && (frog.y <= (logs[i].y + logs[i].size.y)) ||
-    (((frog.x + frog.width) <= (logs[i].x + logs[i].size.x)) && ((frog.x + frog.width) >= logs[i].x) && (frog.y >= logs[i].y) 
-    && (frog.y <= (logs[i].y + logs[i].size.y)))
+   for (int i = 0; i < numLog; i++){
+    if (((frog.x <= (logs[i].position.x + logs[i].size.x)) && (frog.x >= logs[i].position.x) && 
+    (frog.y >= logs[i].position.y) && (frog.y <= (logs[i].position.y + logs[i].size.y)) || 
+    (((frog.x + frog.width) <= (logs[i].position.x + logs[i].size.x)) && ((frog.x + frog.width) >= logs[i].position.x)
+    && (frog.y >= logs[i].position.y) && (frog.y <= (logs[i].position.y + logs[i].size.y)))
     
     return logs[i];
     
@@ -162,8 +164,10 @@ class World{
     
     public void updateState(double time){
 	for (int i = 0; i < numSpheres; i++){
+		
 	    obstacles[i].update(this, time);
-	    
+	    if incontact()
+	    frog.position.x = contactLog().
 	}
 	stillAlive(this);
 	
