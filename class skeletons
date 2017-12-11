@@ -130,8 +130,8 @@ class Obstacle{
 	}
     }
     
-    public void update(double time){
-	position.x=position.x+speed*time;
+    public void update(){
+	position.x=position.x+speed
 	if (speed < 0)
 		if (position.x <= 0)
 			position.x = World.width;
@@ -157,10 +157,10 @@ class environmentalObjects{
     	
 	public environmentalObjects(Pair p, int leftorright){	
 		if (leftorright == 1){
-			speed=0.0+rand.nextDouble(10.0);
+			speed=10*rand.nextDouble();
 		}
 		else {
-			speed = 0.0 - rand.nextDouble(10.0);
+			speed = -10*rand.nextDouble();
 		}
 		size = new Pair(10,5);
 		position.x = p.x;
@@ -169,8 +169,8 @@ class environmentalObjects{
 	}
     
 
-    public void update(double time){
-     	position.x=position.x+speed*time;
+    public void update(){
+     	position.x=position.x+speed
 	      if (speed < 0)
 	      	if (position.x <= 0)
 			 position.x = World.width;
@@ -181,8 +181,8 @@ class environmentalObjects{
     }
     public void draw(Graphics g){	}
     
-    	public void update(double time){
-		position.x=position.x+speed*time;
+    	public void update(){
+		position.x=position.x+speed
     	}
     	public void draw(Graphics g){
 		g.drawRect(position.x,position.y,size.x,size.y);
