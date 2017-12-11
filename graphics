@@ -66,13 +66,13 @@ public class Frogger extends JPanel implements KeyListener{
 		frame.pack();
 		frame.setVisible(true);
    	}
-    
+   	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		world.zone.build(1,g);
 		world.drawObstacles(g);
 		world.drawLogs(g);
-		world.drawUserObject;
+		world.drawUserObject(g);
 	
     	}
 }
@@ -88,8 +88,9 @@ class World{
     	Pair position[];
     	Pair positionlogs[];
     	userObject frog;
-   
-    	public World(int initWidth, int initHeight,int numObstacle, int numLog){
+   	Frogger gameRunning;
+    	public World(int initWidth, int initHeight,int numObstacle, int numLog, Frogger game){
+		gameRunning=game;
 		position[] = new Pair[numObstacle];
 		positionlogs[] = newPair[numLog];
 		obstacles=new Obstacle[numObstacle];
