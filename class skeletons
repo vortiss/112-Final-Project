@@ -27,6 +27,11 @@ class userObject{
 		lives=3;
 		position(w.width/2,w.height-/*Ycoordinate of the top left corner of the sprit*/);
 		player = pictureFinder("Frogs_"+facing);
+		
+	}
+	
+	public void draw(g)[
+		g.drawImage(player, position.x,position.y,width,height 
 	}
 	
 	public void move(char c, World w){
