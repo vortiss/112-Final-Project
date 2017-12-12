@@ -1,8 +1,7 @@
 import java.util.Random;
 import java.awt.event.KeyListener;
 import java.awt.event.KeyEvent;
-import java.awt.Graphics;
-import java.awt.Colors;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -11,79 +10,76 @@ import javax.imageio.ImageIO;
 class userObject{
 	private static int lives;
 	pair position;
-	image player;
 	private boolean alive;
-	imageInput pictureFinder;
 	String facing;
 	int width;
 	int height;
 	
 	public static userObject(World w){
-		width=/*however wide we want it*/
-		height=/*however tall we want it*/
+		width=20;
+		height=20;
 		Facing="Up";
 		alive=true;
 		lives=3;
-		position(w.width/2,w.height-/*Ycoordinate of the top left corner of the sprit*/);
-		player = pictureFinder("Frogs_"+facing);
+		position(w.width/2,(double)w.height-21.3);
+		w.gameRunning.di.changePicture("Frogs_"+facing+"_Sprite_0");
+		w.gameRunning.repaint();
 		
 	}
 	
-	public void draw(g)[
-		g.drawImage(player, position.x,position.y,width,height,null); 
+	public void draw(g){
+		g.drawImage(w.gameRunning.di.picture, position.x,position.y,width,height,null); 
 	}
 	
 	public void move(char c, World w){
 	/*Find some way to make the animations smoother (adding more frames, probably through for loops) without fucking up the background*/
 		if(c=='w'){
 			facing="Up"
-			player=pictureFinder.changePicture("Frog_"+facing+"_Sprite_0");
-			position.y=position.y-21.3;
+			position.y=position.y-21.3;	
 		}
 		if(c=='a'){
 			facing="Left";
-			player=pictureFinder.changePicture("Frog_"+facing+"_Sprite_0");
 			position.x=position.x-21.3;
 		}
 		if(c=='s'){
 			facing="Down";
-			player=pictureFinder.changePicture("Frog_"+facing+"_Sprite_0");
 			position.y=position.y+21.3;
 		}
 		if(c=='d'){
 			facing="Right";
-			player=pictureFinder.changePicture("Frog_"+facing+"_Sprite_0");
 			position.x=position.x+21.3;
 		}
 		stillAlive(w);
+		w.gameRunning.di.changePicture("Frog_"+facing+"_Sprite_0");
 		w.gameRunning.repaint();
 	}
 		
 	public void stillAlive(World w){
 		int i=0;
-		while(alive&&i<world.obstacles.size()){
-			if(position.equals(world.obstacles[i].position)){
+		while(alive&& i<w.obstacles.length()){
+			if(position.equals(w.obstacles[i].position)){
 				alive=false;
 			}
 			i++;
 		}
 		if(!alive&&lives>0){
 			lives=lives-1;
-			position.x=0.0+w.initWidth/2;
-			position.y=0.0+height;
+			position.x=0.0+w.width/2;
+			position.y=0.0+w.height;
 			alive=true;
 		} 
-		else if ( ((position.y >= w.height/6) && (position.y <= w.height/4)) || 
-		((position.y >= w.height*5/12) && (position.y <= w.height/2)) || 
-		((position.y >= w.height*2/3) && (position.y <= w.height*3/4)) ||
-		((position.y >= w.height*11/12) && (position.y <= w.height)) && (!incontact()) ) {
-		lives = lives - 1;
-		position.x = 0/0 + w.initWidth/2;
-		position.y = 0.0+height;
-		
+		if ( ( ((position.y >= w.height*2/12) && (position.y <= w.height*3/12)) || 
+		((position.y >= w.height*5/12) && (position.y <= w.height*6/12)) || 
+		((position.y >= w.height*8/12) && (position.y <= w.height*9/12)) ||
+		((position.y >= w.height*11/12) && (position.y <= w.height)) ) && !incontact() && alive ) {
+			alive=false;
+			lives = lives - 1;
+			position.x = 0.0 + w.width/2;
+			position.y = 0.0 + w.height;
+			alive=true;
 		}
 		
-		else { if(!alive&&lives<=0) w.gameover(); }
+		if((!alive&&lives<=0)||lives<0) w.gameover(); 
 	}
     
 }
@@ -116,47 +112,42 @@ class Pair{
 		}
 		return equal;
         }
-
-
-
 }
 
 class Obstacle{
-    double speed;
-    Pair size;
-    int type;
-    Pair position;
-    Scanner pictureFinder;
-    Random rand;
+	double speed;
+    	Pair size;
+    	int type;
+    	Pair position;
+    	Random rand;
     
-    public Obstacle(Pair p, int leftorright){	
-	if (leftorright == 1){
-		speed=0.0+rand.nextDouble(10.0);
-	}
-	else {
-		speed = 0.0 - rand.nextDouble(10.0);
-	}
-	size = new Pair(10,5);
-	position.x = p.x;
-	position.y = p.y;
+    	public Obstacle(Pair p, int leftorright){	
+		if (leftorright == 1){
+			speed=1.0+10.0*rand.nextDouble();
+		}
+		else {
+			speed = 1.0 - 10.0*rand.nextDouble();
+		}
+		size = new Pair(10.0,5.0);
+		position.x = p.x;
+		position.y = p.y;
 	
 	
 	}
-    }
     
-    public void update(){
+    public void update(World w){
 	position.x=position.x+speed
 	if (speed < 0)
-		if (position.x <= 0)
-			position.x = World.width;
+		if (position.x <= 0.0)
+			position.x = w.width;
 			
 	if (speed > 0)
-		if (position.x >= World.width)
-			position.x = 0;
+		if (position.x >= w.width)
+			position.x = 0.0;
     }
     
     public void draw(Graphics g){
-	g.drawRect(position.x,position.y,size.x,size.y);
+	g.drawRect((int)position.x,(int)position.y,(int)size.x,(int)size.y);
     }	
 }
 
@@ -183,26 +174,27 @@ class environmentalObjects{
 	}
     
 
-    public void update(){
-     	position.x=position.x+speed
-	      if (speed < 0)
-	      	if (position.x <= 0)
-			 position.x = World.width;
+    	public void update(World w){
+     		position.x=position.x+speed
+		if (speed < 0)
+	      		if (position.x <= 0.0)
+				position.x = w.width;
 			
-	if (speed > 0)
-		if (position.x >= World.width)
-			position.x = 0;
-    }
+		if (speed > 0)
+			if (position.x >= w.width)
+				position.x = 0.0;
+    	}
     
-    public void draw(Graphics g){	
-    	
-    }
+    	public void draw(Graphics g){	
+	    	g.drawRect((int)position.x,(int)position.y,(int)size.x,(int)size.y);
+    	}
     
     	public void update(){
 		position.x=position.x+speed
     	}
+	
     	public void draw(Graphics g){
-		g.drawRect(position.x,position.y,size.x,size.y);
+		g.drawRect((int)position.x,(int)position.y,(int)size.x,(int)size.y);
 	}	
 
 }
@@ -218,26 +210,24 @@ class powerup{
 }
 
 class terrain{
-    
-    public terrain(Graphics g){
-	build(g);
 	
-    }
+	public terrain(Graphics g){
+		build(g);
+    	}
     
-    public void build( Graphics g){
-	
-	    for (int i = 1; i < 13; i++){
-		if (i % 3 == 2)
-		    {g.setColor(Color.GREEN);}
-		if (i % 3 == 1) 	
-		    {g.setColor(Color.GREY);}
-		if(i % 3 == 0)
-		    {g.setColor(Color.BLUE);}
-		    (g.fill(new Rectangle2D.Double(0,i*HEIGHT/12, width, HEIGHT/12)));
+    	public void build(World w, Graphics g){
+	    	for (int i = 1; i < 13; i++){
+			if (i % 3 == 2)
+		    		g.setColor(Color.GREEN);
+			if (i % 3 == 1) 	
+		    		g.setColor(Color.GREY);
+			if(i % 3 == 0)
+			    g.setColor(Color.BLUE);	
+			(g.fill(new Rectangle2D.Double(0,i*height/12, width, HEIGHT/12)));
 		
 	    
-	}
-    }	
+		}
+	}	
 }
 
 public class ImageInput{
