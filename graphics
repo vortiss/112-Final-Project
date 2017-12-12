@@ -36,7 +36,13 @@ public class Frogger extends JPanel implements KeyListener{
 		super.addNotify();
 		requestFocus();
   	}
-    
+	public void keyReleased(keyEvent e){
+	
+	}
+	
+	public void keyTyped(keyEvent e){
+	
+	}
 	public void commands(KeyEvent e){
 		char c=e.getKeyChar();
 		if(c=='w'||c=='a'||c=='s'||c=='d')
@@ -70,10 +76,10 @@ public class Frogger extends JPanel implements KeyListener{
    	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		world.zone.build(world,g);
-		world.drawObstacles(g);
-		world.drawLogs(g);
-		world.drawUserObject(g);
+		world.zone.build(g,world);
+		world.drawObstacles(g,world);
+		world.drawLogs(g,world);
+		world.drawUserObject(g,world);
 	
     	}
 }
@@ -98,37 +104,34 @@ class World{
 		obstacles=new Obstacle[numObstacle];
 		logs = new environmentalObjects[numLog];
 		frog = new userObject;
+		width=initWidth;
+		height=initHeight;
 		
 		for (int i=0; i<numObstacle/4 i++){
-		    position[i] = (0, height/36*(4) + 9*i);   
+		    position[i] = (0.0, (double)(height/36*(4) + 9*i));   
 		}
 		for (int i = numObstacle/4; i < numObstacle/2; i++){
-			position[i] = (0,height/36*5 + 9*i)
+			position[i] = (0.0,(double)(height/36*5 + 9*i))
 		}
 		for (int i = numObstacle/2; i < numObstacle*3/4; i++){
-			position[i] = (width, height/36*4 + 9*i);	
+			position[i] = ((double)width, (double)(height/36*4 + 9*i));	
 		}
 		for (int i = numObstacle*3/4; i<numObstacle; i++){
-			position[i] = (width, height/36*5 + 9*i);
+			position[i] = ((double)width, (double)(height/36*5 + 9*i));
 		}
 		
 		for (int i=; i<numLog/4 i++){
-		    positionlogs[i] = (0, height/36*(7) + 9*i);   
+		    positionlogs[i] = (0.0, (double)(height/36*(7) + 9*i));   
 		}
 		for (int i = numLog/2; i < numObstacle/2; i++){
-			positionlogs[i] = (0,height/36*8 + 9*i)
+			positionlogs[i] = (0.0, (double)(height/36*8 + 9*i))
 		}
 		for (int i = numObstacle/2; i < numObstacle*3/4; i++){
-			positionlogs[i] = (width, height/36*7 + 9*i);	
+			positionlogs[i] = ((double)width, (double)(height/36*7 + 9*i));	
 		}
 		for (int i = numObstacle*3/4; i<numObstacle; i++){
-			positionlogs[i] = (width, height/36*8 + 9*i);
+			positionlogs[i] = ((double)width, (double)(height/36*8 + 9*i));
 		}
-		
-		
-		width = initWidth;
-		height = initHeight;
-		
 		for(int i=0; i < numObstacle;i++){
 			if (i < numObstacle / 2)
 				obstacles[i]=new Obstacle(position[i], 1);
@@ -197,18 +200,18 @@ class World{
     
     	public void drawObstacles(Graphics g){
 		for(int i=0;i<numObstacle;i++){
-	    		obstacles[i].draw(g);
+	    		obstacles[i].draw(g,this);
 		}	
     	}
     
     	public void drawLogs(Graphics g){
     		for (int i = 0; i < numLog; i ++){
-    			logs[i].draw(g);
+    			logs[i].draw(g,this);
     		}
     	}
     
     	public void drawUserObject(Graphics g){
-	    	frog.draw(g);
+	    	frog.draw(g,this);
     	}
     
 }
