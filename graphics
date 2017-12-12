@@ -39,16 +39,12 @@ public class Frogger extends JPanel implements KeyListener{
     
 	public void commands(KeyEvent e){
 		char c=e.getKeyChar();
-		if(c=='w'||c=='a'||c=='s'||c=='d'){
-	 	   userObject.move(c,world);
-		}
-		if(c=='p'){
+		if(c=='w'||c=='a'||c=='s'||c=='d')
+	 	   	userObject.move(c,world);
+		if(c=='p')
 			this=new Frogger;
-		}
-		if(c=='l'){
-			
-			Thread.sleep(3000);
-			
+		if(c=='l'){			
+			System.out.println("Thanks for playing!")			
 			System.exit(0);
 		}
     	}
@@ -83,7 +79,7 @@ public class Frogger extends JPanel implements KeyListener{
 }
 
 class World{
-    	static int height;
+	static int height;
     	static int width;
     	int numObstacles;
     	Obstacle obstacles[];
@@ -147,16 +143,20 @@ class World{
 		}
 		if (i > numLog/2)
 	    		logs[i] = new environmentalObject(position[i], 0);
-    }
+    	}
     
-    public void gameOver(Graphics g){ 
-    		g.setColor(0,0,0);
+    	public void gameOver(Graphics g){ 
+		g.setColor(0,0,0);
 		g.drawRect(0,0,width,height);
 		g.setColor(202,13,13);
 		g.printString("You died not once, not twice, but thrice. Press p to play again; l to leave", (width/2)-63, height/2);
-    }
-    
-    public boolean incontact(){
+    	
+    		boolean decision=false
+    		while(!decision){
+    		Thread.sleep(3000);
+	}
+	
+   	public boolean incontact(){
     		for (int i = 0; i < numLog; i++){
     			if (((frog.x <= (logs[i].position.x + logs[i].size.x)) && (frog.x >= logs[i].position.x) && 
     (frog.y >= logs[i].position.y) && (frog.y <= (logs[i].position.y + logs[i].size.y)) || 
@@ -166,63 +166,63 @@ class World{
     		}
     		else {return false;}
 
-    }
+    	}
     
-    public environmentalObject contactLog(){
+    	public environmentalObject contactLog(){
    		for (int i = 0; i < numLog; i++){
 			if (((frog.x <= (logs[i].position.x + logs[i].size.x)) && (frog.x >= logs[i].position.x) && 
     (frog.y >= logs[i].position.y) && (frog.y <= (logs[i].position.y + logs[i].size.y)) || 
     (((frog.x + frog.width) <= (logs[i].position.x + logs[i].size.x)) && ((frog.x + frog.width) >= logs[i].position.x)
     && (frog.y >= logs[i].position.y) && (frog.y <= (logs[i].position.y + logs[i].size.y)))
     
-   			 	return logs[i];
+   				return logs[i];
    	 	}
     
-    }
-    
-    
-    public void updateState(){
+    	}
+	
+    	public void updateState(){
 		for (int i = 0; i < numObstacles; i++){	
 	    		obstacles[i].update();
 			logs[i].update();
-	    		if (incontact()){frog.position.x = logs[i].position.x + logs[i].speed;}
-	   	}
-	}
-	stillAlive(this);
+	    		if (incontact()){
+				frog.position.x = frog.position.x + contactLog().speed;
+			}
+	   	}	
+		stillAlive(this);
 	
-    }
+	}
     
-    public void drawObstacles(Graphics g){
-	for(int i=0;i<numObstacle;i++){
-	    obstacles[i].draw(g);
-	}	
-    }
-    
-    public void drawLogs(Graphics g){
-    	for (int i = 0; i < numLog; i ++){
-    		logs[i].draw(g);
+    	public void drawObstacles(Graphics g){
+		for(int i=0;i<numObstacle;i++){
+	    		obstacles[i].draw(g);
+		}	
     	}
-    }
     
-    public void drawUserObject(Graphics g){
-	    frog.draw(g);
-    }
+    	public void drawLogs(Graphics g){
+    		for (int i = 0; i < numLog; i ++){
+    			logs[i].draw(g);
+    		}
+    	}
+    
+    	public void drawUserObject(Graphics g){
+	    	frog.draw(g);
+    	}
     
 }
 
 class DrawImage extends Jpanel{
-	Image i;
-	Toolkit t;
+	Image picture;
+	Toolkit kit;
 	
 	public DrawImage(){
-		this.t=Toolkit.getDefaultToolkit();
-		i=null;
+		kit=Toolkit.getDefaultToolkit();
+		picture=null;
 	}
 	
 	public void changeImage(String pictureName){
 		try{
 			File f=new File(pictureName+".png");
-			i=ImageIO.read(f);
+			picture=ImageIO.read(f);
 		}
 		catch(Exception e){
 			System.out.println(e)
