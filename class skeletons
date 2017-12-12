@@ -59,7 +59,7 @@ class userObject{
 		stillAlive(w);
 		w.gameRunning.repaint();
 	}
-	
+		
 	public void stillAlive(World w){
 		int i=0;
 		while(alive&&i<world.obstacles.size()){
@@ -74,10 +74,10 @@ class userObject{
 			position.y=0.0+height;
 			alive=true;
 		} 
-		else if {( ((position.y >= w.height/6) && (position.y <= w.height/4)) || 
+		else if ( ((position.y >= w.height/6) && (position.y <= w.height/4)) || 
 		((position.y >= w.height*5/12) && (position.y <= w.height/2)) || 
 		((position.y >= w.height*2/3) && (position.y <= w.height*3/4)) ||
-		((position.y >= w.height*11/12) && (position.y <= w.height)) && (!incontact()) ) 
+		((position.y >= w.height*11/12) && (position.y <= w.height)) && (!incontact()) ) {
 		lives = lives - 1;
 		position.x = 0/0 + w.initWidth/2;
 		position.y = 0.0+height;
