@@ -27,7 +27,8 @@ class userObject{
 		
 	}
 	
-	public void draw(g){
+	public void draw(Graphics g, World w){
+		w.gameRunning.di.changePicture("Frog_"+facing+"_Sprite_0");
 		g.drawImage(w.gameRunning.di.picture, position.x,position.y,width,height,null); 
 	}
 	
@@ -120,36 +121,43 @@ class Obstacle{
     	int type;
     	Pair position;
     	Random rand;
+	String facing;
     
     	public Obstacle(Pair p, int leftorright){	
 		rand=new Random();
 		if (leftorright == 1){
+			facing="Right";
 			speed=1.0+10.0*rand.nextDouble();
 		}
 		else {
+			facing="Left";
 			speed = -1.0 - 10.0*rand.nextDouble();
 		}
 		size = new Pair(10.0,5.0);
 		position.x = p.x;
 		position.y = p.y;
 	
-	
 	}
     
-    public void update(World w){
-	position.x=position.x+speed
-	if (speed < 0)
-		if (position.x <= 0.0)
-			position.x = w.width;
+    	public void update(World w){
+		position.x=position.x+speed
+		if (speed < 0)
+			if (position.x <= 0.0)
+				position.x = w.width;
 			
-	if (speed > 0)
-		if (position.x >= w.width)
-			position.x = 0.0;
-    }
+		if (speed > 0)
+			if (position.x >= w.width)
+				position.x = 0.0;
+    	}
     
-    public void draw(Graphics g){
-	g.drawRect((int)position.x,(int)position.y,(int)size.x,(int)size.y);
-    }	
+    	public void draw(Graphics g, World w){
+		String color;
+		if(rand.nextInt(2)==1)
+			color="Blue";
+		else{color="Red";}
+		w.gameRunning.di.changePicture("Car_"+facing+"_"+color+"_Sprite");
+		g.drawImage(w.gameRunning.di.picture,(int)position.x,(int)position.y,(int)size.x,(int)size.y,null);
+    	}	
 }
 
 class environmentalObjects{
@@ -157,7 +165,6 @@ class environmentalObjects{
 	Pair size;
 	int type;
 	Pair position;
-	imageInput pictureFinder;
 	Random rand;
     	
 	public environmentalObjects(Pair p, int leftorright){
@@ -176,26 +183,19 @@ class environmentalObjects{
 
     	public void update(World w){
      		position.x=position.x+speed
-		if (speed < 0)
+		if (speed < 0.0)
 	      		if (position.x <= 0.0)
 				position.x = w.width;
 			
-		if (speed > 0)
+		if (speed > 0.0)
 			if (position.x >= w.width)
 				position.x = 0.0;
     	}
     
-    	public void draw(Graphics g){	
-	    	g.drawRect((int)position.x,(int)position.y,(int)size.x,(int)size.y);
+    	public void draw(Graphics g, World w){	
+	    	w.gameRunning.di.changeImage("Log_Sprite")
+		g.drawImage(w.gameRunning.di.image,(int)position.x,(int)position.y,(int)size.x,(int)size.y),null);
     	}
-    
-    	public void update(){
-		position.x=position.x+speed
-    	}
-	
-    	public void draw(Graphics g){
-		g.drawRect((int)position.x,(int)position.y,(int)size.x,(int)size.y);
-	}	
 
 }
 
@@ -211,38 +211,19 @@ class powerup{
 
 class terrain{
 	
-	public terrain(Graphics g){
-		build(g);
+	public terrain(){
     	}
     
-    	public void build(World w, Graphics g){
+    	public void build(Graphics g, World w){
 	    	for (int i = 1; i < 13; i++){
 			if (i % 3 == 2)
 		    		g.setColor(Color.GREEN);
 			if (i % 3 == 1) 	
 		    		g.setColor(Color.GREY);
 			if(i % 3 == 0)
-			    g.setColor(Color.BLUE);	
+			    	g.setColor(Color.BLUE);	
 			(g.fill(new Rectangle2D.Double(0,i*height/12, width, HEIGHT/12)));
 		
-	    
 		}
 	}	
-}
-
-public class ImageInput{
-
-	public ImageInput(String pictureName){
-	 	try{
-      			BufferedImage animal = ImageIO.read(new File("/Users/al/"+pictureName+".png"));
-     		} 
-    		catch (IOException e){}
-	}
-	
-	public void changePicture(String PictureName){
-		try{
-			BufferedImage animal=ImageIO.read(new File("Users/al/"+pictureName+".png"));
-		}
-		catch(IOException e){}
-	}
 }
