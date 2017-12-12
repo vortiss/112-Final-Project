@@ -50,7 +50,7 @@ public class Frogger extends JPanel implements KeyListener{
     	}
     
    	public Frogger(){
-		world = new World(WIDTH, HEIGHT,16,16);
+		world = new World(WIDTH, HEIGHT,16,16,this);
 		addKeyListener(this);
 		this.setPreferredSize(new Dimension(WIDTH, HEIGHT));
 		Thread mainThread = new Thread(new Runner());
@@ -70,7 +70,7 @@ public class Frogger extends JPanel implements KeyListener{
    	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		world.zone.build(1,g);
+		world.zone.build(world,g);
 		world.drawObstacles(g);
 		world.drawLogs(g);
 		world.drawUserObject(g);
@@ -153,7 +153,8 @@ class World{
     	
     		boolean decision=false
     		while(!decision){
-    		Thread.sleep(3000);
+    			Thread.sleep(3000);
+		}
 	}
 	
    	public boolean incontact(){
@@ -182,8 +183,8 @@ class World{
 	
     	public void updateState(){
 		for (int i = 0; i < numObstacles; i++){	
-	    		obstacles[i].update();
-			logs[i].update();
+	    		obstacles[i].update(this);
+			logs[i].update(this);
 	    		if (incontact()){
 				frog.position.x = frog.position.x + contactLog().speed;
 			}
@@ -210,7 +211,7 @@ class World{
     
 }
 
-class DrawImage extends Jpanel{
+class DrawImage{
 	Image picture;
 	Toolkit kit;
 	
