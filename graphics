@@ -179,7 +179,7 @@ class World{
 		for (int i = 0; i < numObstacles; i++){	
 	    		obstacles[i].update();
 			logs[i].update();
-	    		if (incontact()){frog.position.x = logs[i].position.x + logs[i].speed;}
+	    		if (incontact()){frog.position.x += logs[i].speed;}
 	   	}
 	}
 	stillAlive(this);
