@@ -122,11 +122,12 @@ class Obstacle{
     	Random rand;
     
     	public Obstacle(Pair p, int leftorright){	
+		rand=new Random();
 		if (leftorright == 1){
 			speed=1.0+10.0*rand.nextDouble();
 		}
 		else {
-			speed = 1.0 - 10.0*rand.nextDouble();
+			speed = -1.0 - 10.0*rand.nextDouble();
 		}
 		size = new Pair(10.0,5.0);
 		position.x = p.x;
@@ -158,19 +159,18 @@ class environmentalObjects{
 	Pair position;
 	imageInput pictureFinder;
 	Random rand;
-	image object;
     	
 	public environmentalObjects(Pair p, int leftorright){
 		if (leftorright == 1){
-			speed=10*rand.nextDouble();
+			speed=1.0+10.0*rand.nextDouble();
 		}
 		else {
-			speed = -10*rand.nextDouble();
+			speed = -1-10*rand.nextDouble();
 		}
-		size = new Pair(10,5);
+		size = new Pair(10.0,5.0);
 		position.x = p.x;
 		position.y = p.y;
-		pictureFinder=new imageInput("log");
+		
 	}
     
 
