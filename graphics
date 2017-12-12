@@ -1,9 +1,9 @@
 import javax.swing.JPanel;
 import javax.swing.JFrame;
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Dimension;
+import java.awt.*;
 import java.util.Random;
+import javax.imageio.ImageIO;
+import java.io.File;
 import java.awt.event.KeyListener;
 import java.awt.event.KeyEvent;
 
@@ -46,6 +46,9 @@ public class Frogger extends JPanel implements KeyListener{
 			this=new Frogger;
 		}
 		if(c=='l'){
+			
+			Thread.sleep(3000);
+			
 			System.exit(0);
 		}
     	}
@@ -60,6 +63,8 @@ public class Frogger extends JPanel implements KeyListener{
     
     	public static void main(String[] args){
 		JFrame frame = new JFrame("Frogger+");
+		DrawImage di=new DrawImage();
+		frame.add(di);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		Frogger mainInstance = new Frogger();
 		frame.setContentPane(mainInstance);
@@ -89,6 +94,7 @@ class World{
     	Pair positionlogs[];
     	userObject frog;
    	Frogger gameRunning;
+	
     	public World(int initWidth, int initHeight,int numObstacle, int numLog, Frogger game){
 		gameRunning=game;
 		position[] = new Pair[numObstacle];
@@ -185,6 +191,7 @@ class World{
 	stillAlive(this);
 	
     }
+    
     public void drawObstacles(Graphics g){
 	for(int i=0;i<numObstacle;i++){
 	    obstacles[i].draw(g);
@@ -202,3 +209,22 @@ class World{
     }
     
 }
+
+class DrawImage extends Jpanel{
+	Image i;
+	Toolkit t;
+	
+	public DrawImage(){
+		this.t=Toolkit.getDefaultToolkit();
+		i=null;
+	}
+	
+	public void changeImage(String pictureName){
+		try{
+			File f=new File(pictureName+".png");
+			i=ImageIO.read(f);
+		}
+		catch(Exception e){
+			System.out.println(e)
+		}
+	}
