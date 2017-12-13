@@ -135,8 +135,7 @@ class Obstacle{
 	    speed = -1.0 - 10.0*rand.nextDouble();
 	}
 	size = new Pair(10.0,5.0);
-	position.x = p.x;
-	position.y = p.y;
+	position=p;
 	
     }
     
@@ -156,7 +155,7 @@ class Obstacle{
 	if(rand.nextInt(2)==1)
 	    color="Blue";
 	else{color="Red";}
-	DrawImage.changePicture("Car_"+facing+"_"+color+"_Sprite");
+	DrawImage.changePicture("Car_"+facing+"_Sprite_"+color);
 	g.drawImage(DrawImage.picture,(int)position.x,(int)position.y,(int)size.x,(int)size.y,null);
     }	
 }
@@ -169,6 +168,7 @@ class environmentalObjects{
     Random rand;
     
     public environmentalObjects(Pair p, int leftorright){
+	rand=new Random();	
 	if (leftorright == 1){
 	    speed=1.0+10.0*rand.nextDouble();
 	}
@@ -176,8 +176,7 @@ class environmentalObjects{
 	    speed = -1-10*rand.nextDouble();
 	}
 	size = new Pair(10.0,5.0);
-	position.x = p.x;
-	position.y = p.y;
+	position=p;
 		
     }
     
