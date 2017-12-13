@@ -8,229 +8,230 @@ import java.awt.event.KeyListener;
 import java.awt.event.KeyEvent;
 
 public class Frogger extends JPanel implements KeyListener{
-	public static final int WIDTH = 1024;
-	public static final int HEIGHT = 768;
-	public static final int FPS = 60;
-	World world;
-	
-	class Runner implements Runnable{
-		public void run(){
-			while(true){
-				world.updateState(1.0 / (double)FPS);
-				repaint();
-				try{
-				    Thread.sleep(1000/FPS);
-				}
-				catch(InterruptedException e){}
-			}
-			
+    public static final int WIDTH = 1024;
+    public static final int HEIGHT = 768;
+    public static final int FPS = 60;
+    World world;
+    static DrawImage di;
+    
+    class Runner implements Runnable{
+	public void run(){
+	    while(true){
+		world.updateState();
+		repaint();
+		try{
+		    Thread.sleep(1000/FPS);
 		}
+		catch(InterruptedException e){}
+	    }
 	    
 	}
 	
-	public void keyPressed(KeyEvent e) {
-		commands(e);
-    	}
+    }
     
-	public void addNotify() {
-		super.addNotify();
-		requestFocus();
-  	}
-	public void keyReleased(keyEvent e){
+    public void keyPressed(KeyEvent e) {
+	commands(e);
+    }
+    
+    public void addNotify() {
+	super.addNotify();
+	requestFocus();
+    }
+    public void keyReleased(KeyEvent e){
 	
+    }
+    
+    public void keyTyped(KeyEvent e){
+	
+    }
+    public void commands(KeyEvent e){
+	char c=e.getKeyChar();
+	if(c=='w'||c=='a'||c=='s'||c=='d')
+	    userObject.move(c,world);
+	/*	if(c=='p')
+	    this=new Frogger(); */
+	if(c=='l'){			
+	    System.out.println("Thanks for playing!");			
+	    System.exit(0);
 	}
-	
-	public void keyTyped(keyEvent e){
-	
-	}
-	public void commands(KeyEvent e){
-		char c=e.getKeyChar();
-		if(c=='w'||c=='a'||c=='s'||c=='d')
-	 	   	userObject.move(c,world);
-		if(c=='p')
-			this=new Frogger;
-		if(c=='l'){			
-			System.out.println("Thanks for playing!")			
-			System.exit(0);
-		}
-    	}
+    }
     
-   	public Frogger(){
-		world = new World(WIDTH, HEIGHT,16,16,this);
-		addKeyListener(this);
-		this.setPreferredSize(new Dimension(WIDTH, HEIGHT));
-		Thread mainThread = new Thread(new Runner());
-		mainThread.start();
-    	}
+    public Frogger(){
+	world = new World(WIDTH, HEIGHT,16,16,this);
+	addKeyListener(this);
+	this.setPreferredSize(new Dimension(WIDTH, HEIGHT));
+	Thread mainThread = new Thread(new Runner());
+	mainThread.start();
+    }
     
-    	public static void main(String[] args){
-		JFrame frame = new JFrame("Frogger+");
-		DrawImage di=new DrawImage();
-		frame.add(di);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		Frogger mainInstance = new Frogger();
-		frame.setContentPane(mainInstance);
-		frame.pack();
-		frame.setVisible(true);
-   	}
-   	@Override
+    public static void main(String[] args){
+	JFrame frame = new JFrame("Frogger+");
+	di=new DrawImage();
+	frame.add(di);
+	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	Frogger mainInstance = new Frogger();
+	frame.setContentPane(mainInstance);
+	frame.pack();
+	frame.setVisible(true);
+    }
+    @Override
 	public void paintComponent(Graphics g) {
-		super.paintComponent(g);
-		world.zone.build(g,world);
-		world.drawObstacles(g,world);
-		world.drawLogs(g,world);
-		world.drawUserObject(g,world);
+	super.paintComponent(g);
+	world.zone.build(g,world);
+	world.drawObstacles(g);
+	world.drawLogs(g);
+	world.drawUserObject(g);
 	
-    	}
+    }
 }
 
 class World{
-	static int height;
-    	static int width;
-    	int numObstacles;
-    	Obstacle obstacles[];
-   	environmentalObjects logs[];
-   	Terrain zone;
-    	userObject player;
-    	Pair position[];
-    	Pair positionlogs[];
-    	userObject frog;
-   	Frogger gameRunning;
+    static int height;
+    static int width;
+    int numObstacles;
+    int numLog;
+    Obstacle[] obstacles;
+    environmentalObjects[] logs;
+    Terrain zone;
+    userObject player;
+    Pair[] position;
+    Pair[] positionlogs;
+    userObject frog;
+    Frogger gameRunning;
+    
+    public World(int initWidth, int initHeight,int numObstacle, int numLog, Frogger game){
+	gameRunning=game;
+	position = new Pair[numObstacle];
+	positionlogs = new Pair[numLog];
+	obstacles=new Obstacle[numObstacle];
+	logs = new environmentalObjects[numLog];
+	frog = new userObject(this);
+	width=initWidth;
+	height=initHeight;	
+
+	for (int i=0; i<numObstacle/4;i++){
+	    position[i] =new Pair(0.0, (double)(height/36*(4) + 9*i));   
+	}
+	for (int i = numObstacle/4; i < numObstacle/2; i++){
+	    position[i] =new Pair(0.0,(double)(height/36*5 + 9*i));
+	}
+	for (int i = numObstacle/2; i < numObstacle*3/4; i++){
+	    position[i] =new Pair((double)width, (double)(height/36*4 + 9*i));	
+	}
+	for (int i = numObstacle*3/4; i<numObstacle; i++){
+	    position[i] =new Pair ((double)width, (double)(height/36*5 + 9*i));
+	}
+	for (int i= 0; i<numLog/4;i++){
+	    positionlogs[i] =new Pair (0.0, (double)(height/36*(7) + 9*i));   
+	}
+	for (int i = numLog/2; i < numObstacle/2; i++){
+	    positionlogs[i] =new Pair (0.0, (double)(height/36*8 + 9*i));
+	}
+	for (int i = numObstacle/2; i < numObstacle*3/4; i++){
+	    positionlogs[i] =new Pair ((double)width, (double)(height/36*7 + 9*i));	
+	}
+	for (int i = numObstacle*3/4; i<numObstacle; i++){
+	    positionlogs[i] =new Pair ((double)width, (double)(height/36*8 + 9*i));
+	}
+	for(int i=0; i < numObstacle;i++){
+
+	    if (i < numObstacle / 2)
+		obstacles[i]=new Obstacle(position[i], 1);
+	    if (i >= numObstacle/2)
+		obstacles[i] = new Obstacle(position[i], 0);
+	    System.out.println("position " + i + " " + position[i]);
+	}
 	
-    	public World(int initWidth, int initHeight,int numObstacle, int numLog, Frogger game){
-		gameRunning=game;
-		position[] = new Pair[numObstacle];
-		positionlogs[] = newPair[numLog];
-		obstacles=new Obstacle[numObstacle];
-		logs = new environmentalObjects[numLog];
-		frog = new userObject;
-		width=initWidth;
-		height=initHeight;
-		
-		for (int i=0; i<numObstacle/4 i++){
-		    position[i] = (0.0, (double)(height/36*(4) + 9*i));   
-		}
-		for (int i = numObstacle/4; i < numObstacle/2; i++){
-			position[i] = (0.0,(double)(height/36*5 + 9*i))
-		}
-		for (int i = numObstacle/2; i < numObstacle*3/4; i++){
-			position[i] = ((double)width, (double)(height/36*4 + 9*i));	
-		}
-		for (int i = numObstacle*3/4; i<numObstacle; i++){
-			position[i] = ((double)width, (double)(height/36*5 + 9*i));
-		}
-		
-		for (int i=; i<numLog/4 i++){
-		    positionlogs[i] = (0.0, (double)(height/36*(7) + 9*i));   
-		}
-		for (int i = numLog/2; i < numObstacle/2; i++){
-			positionlogs[i] = (0.0, (double)(height/36*8 + 9*i))
-		}
-		for (int i = numObstacle/2; i < numObstacle*3/4; i++){
-			positionlogs[i] = ((double)width, (double)(height/36*7 + 9*i));	
-		}
-		for (int i = numObstacle*3/4; i<numObstacle; i++){
-			positionlogs[i] = ((double)width, (double)(height/36*8 + 9*i));
-		}
-		for(int i=0; i < numObstacle;i++){
-			if (i < numObstacle / 2)
-				obstacles[i]=new Obstacle(position[i], 1);
-		}
-		if (i > numObstacle/2)
-		    obstacles[i] = new Obstacle(position[i], 0);
-    		}
+	for(int i=0; i < numLog; i++){
+	    if (i < numLog / 2)
+		logs[i]=new environmentalObjects(position[i], 1);
+	    if (i >= numLog/2)
+		logs[i] = new environmentalObjects(position[i], 0);
+	}
+    }
     
-    		for(int i=0; i < numLog; i++){
-			if (i < numLog / 2)
-	    		logs[i]=new environmentalObject(position[i], 1);
-		}
-		if (i > numLog/2)
-	    		logs[i] = new environmentalObject(position[i], 0);
-    	}
-    
-    	public void gameOver(Graphics g){ 
-		g.setColor(0,0,0);
-		g.drawRect(0,0,width,height);
-		g.setColor(202,13,13);
-		g.printString("You died not once, not twice, but thrice. Press p to play again; l to leave", (width/2)-63, height/2);
+    public void gameOver(Graphics g){ 
+	g.setColor(Color.BLACK);
+	g.drawRect(0,0,width,height);
+	g.setColor(new Color(202,13,13));
+	g.drawString("You died not once, not twice, but thrice. Press p to play again or l to leave", (width/2)-63, height/2);
     	
-    		boolean decision=false
-    		while(!decision){
-    			Thread.sleep(3000);
-		}
+	boolean decision=false;
+	while(!decision){
+	    try{
+		Thread.sleep(3000);
+	    }
+	    catch(InterruptedException e){}
 	}
-	
-   	public boolean incontact(){
-    		for (int i = 0; i < numLog; i++){
-    			if (((frog.x <= (logs[i].position.x + logs[i].size.x)) && (frog.x >= logs[i].position.x) && 
-    (frog.y >= logs[i].position.y) && (frog.y <= (logs[i].position.y + logs[i].size.y)) || 
-    (((frog.x + frog.width) <= (logs[i].position.x + logs[i].size.x)) && ((frog.x + frog.width) >= logs[i].position.x)
-    && (frog.y >= logs[i].position.y) && (frog.y <= (logs[i].position.y + logs[i].size.y)))
-    				return true;
-    		}
-    		else {return false;}
-
-    	}
+    }
     
-    	public environmentalObject contactLog(){
-   		for (int i = 0; i < numLog; i++){
-			if (((frog.x <= (logs[i].position.x + logs[i].size.x)) && (frog.x >= logs[i].position.x) && 
-    (frog.y >= logs[i].position.y) && (frog.y <= (logs[i].position.y + logs[i].size.y)) || 
-    (((frog.x + frog.width) <= (logs[i].position.x + logs[i].size.x)) && ((frog.x + frog.width) >= logs[i].position.x)
-    && (frog.y >= logs[i].position.y) && (frog.y <= (logs[i].position.y + logs[i].size.y)))
-    
-   				return logs[i];
-   	 	}
-    
-    	}
-	
-    	public void updateState(){
-		for (int i = 0; i < numObstacles; i++){	
-
-	    		obstacles[i].update(this);
-			logs[i].update(this);
-	    		if (incontact()){
-				frog.position.x = frog.position.x + contactLog().speed;
-			}
-	   	}	
-		stillAlive(this);
-
-	
+    public boolean incontact(){
+	for (int i = 0; i < numLog; i++){
+	    if ((frog.position.x<=(logs[i].position.x+logs[i].size.x)&&frog.position.x>=logs[i].position.x&&frog.position.y>=logs[i].position.y&&frog.position.y<=(logs[i].position.y+logs[i].size.y))||((frog.position.x+frog.width)<=(logs[i].position.x+logs[i].size.x)&&(frog.position.x+frog.width)>=logs[i].position.x&&frog.position.y>=logs[i].position.y&&frog.position.y<=(logs[i].position.y+logs[i].size.y)))
+		return true;
 	}
+	return false;
+	
+    }
     
-    	public void drawObstacles(Graphics g){
-		for(int i=0;i<numObstacle;i++){
-	    		obstacles[i].draw(g,this);
-		}	
-    	}
+    public environmentalObjects contactLog(){
+	for (int i = 0; i < numLog; i++){
+	    if ((frog.position.x<=(logs[i].position.x+logs[i].size.x)&&frog.position.x>=logs[i].position.x&&frog.position.y>=logs[i].position.y&&frog.position.y<=(logs[i].position.y+logs[i].size.y))||((frog.position.x+frog.width)<=(logs[i].position.x+logs[i].size.x)&&(frog.position.x+frog.width)>=logs[i].position.x&&frog.position.y>=logs[i].position.y&&frog.position.y<=(logs[i].position.y+logs[i].size.y)))
+		
+		return logs[i];
+	}
+        return null;
+	
+    }
     
-    	public void drawLogs(Graphics g){
-    		for (int i = 0; i < numLog; i ++){
-    			logs[i].draw(g,this);
-    		}
-    	}
+    public void updateState(){
+	for (int i = 0; i < numObstacles; i++){	
+	    
+	    obstacles[i].update(this);
+	    logs[i].update(this);
+	    if (incontact()){
+		frog.position.x = frog.position.x + contactLog().speed;
+	    }
+	}	
+	frog.stillAlive(this);
+	
+	
+    }
     
-    	public void drawUserObject(Graphics g){
-	    	frog.draw(g,this);
-    	}
+    public void drawObstacles(Graphics g){
+	for(int i=0;i<numObstacles;i++){
+	    obstacles[i].draw(g,this);
+	}	
+    }
+    
+    public void drawLogs(Graphics g){
+	for (int i = 0; i < numLog; i ++){
+	    logs[i].draw(g,this);
+	}
+    }
+    
+    public void drawUserObject(Graphics g){
+	frog.draw(g,this);
+    }
     
 }
 
-class DrawImage{
-	Image picture;
-	Toolkit kit;
-	
-	public DrawImage(){
-		kit=Toolkit.getDefaultToolkit();
-		picture=null;
+class DrawImage extends JPanel{
+    static Image picture;
+    static Toolkit kit;
+    
+    public DrawImage(){
+	kit=Toolkit.getDefaultToolkit();
+	picture=null;
+    }
+    
+    public static void changePicture(String pictureName){
+	try{
+	    File f=new File(pictureName+".png");
+	    picture=ImageIO.read(f);
 	}
-	
-	public void changeImage(String pictureName){
-		try{
-			File f=new File(pictureName+".png");
-			picture=ImageIO.read(f);
-		}
-		catch(Exception e){
-			System.out.println(e)
-		}
+	catch(Exception e){
+	    System.out.println(e);
 	}
+    }
+}
