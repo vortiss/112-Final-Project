@@ -6,224 +6,218 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
+import java.awt.geom.Rectangle2D;
 
 class userObject{
-	private static int lives;
-	pair position;
-	private boolean alive;
-	String facing;
-	int width;
-	int height;
+    private static int lives;
+    static Pair position;
+    static boolean alive;
+    static String facing;
+    static int width;
+    static int height;
+    
+    public userObject(World w){
+	width=20;
+	height=20;
+	facing="Up";
+	alive=true;
+	lives=3;
+	position=new Pair(w.width/2,(double)w.height-21.3);
+	DrawImage.changePicture("Frogs_"+facing+"_Sprite_0");
+	w.gameRunning.repaint();
 	
-	public static userObject(World w){
-		width=20;
-		height=20;
-		Facing="Up";
-		alive=true;
-		lives=3;
-		position(w.width/2,(double)w.height-21.3);
-		w.gameRunning.di.changePicture("Frogs_"+facing+"_Sprite_0");
-		w.gameRunning.repaint();
-		
-	}
-	
-	public void draw(Graphics g, World w){
-		w.gameRunning.di.changePicture("Frog_"+facing+"_Sprite_0");
-		g.drawImage(w.gameRunning.di.picture, position.x,position.y,width,height,null); 
-	}
-	
-	public void move(char c, World w){
+    }
+    
+    public static void draw(Graphics g, World w){
+	DrawImage.changePicture("Frog_"+facing+"_Sprite_0");
+	g.drawImage(w.gameRunning.di.picture, (int)position.x,(int)position.y,width,height,null); 
+    }
+    
+    public static void move(char c, World w){
 	/*Find some way to make the animations smoother (adding more frames, probably through for loops) without fucking up the background*/
-		if(c=='w'){
-			facing="Up"
-			position.y=position.y-21.3;	
-		}
-		if(c=='a'){
-			facing="Left";
+	if(c=='w'){
+	    facing="Up";
+	    position.y=position.y-21.3;	
+	}
+	if(c=='a'){
+	    facing="Left";
 			position.x=position.x-21.3;
-		}
-		if(c=='s'){
-			facing="Down";
-			position.y=position.y+21.3;
-		}
-		if(c=='d'){
-			facing="Right";
-			position.x=position.x+21.3;
-		}
-		stillAlive(w);
-		w.gameRunning.di.changePicture("Frog_"+facing+"_Sprite_0");
-		w.gameRunning.repaint();
 	}
-		
-	public void stillAlive(World w){
-		int i=0;
-		while(alive&& i<w.obstacles.length()){
-			if(position.equals(w.obstacles[i].position)){
-				alive=false;
-			}
-			i++;
-		}
-		if(!alive&&lives>0){
-			lives=lives-1;
-			position.x=0.0+w.width/2;
-			position.y=0.0+w.height;
-			alive=true;
-		} 
-		if ( ( ((position.y >= w.height*2/12) && (position.y <= w.height*3/12)) || 
-		((position.y >= w.height*5/12) && (position.y <= w.height*6/12)) || 
-		((position.y >= w.height*8/12) && (position.y <= w.height*9/12)) ||
-		((position.y >= w.height*11/12) && (position.y <= w.height)) ) && !incontact() && alive ) {
-			alive=false;
-			lives = lives - 1;
-			position.x = 0.0 + w.width/2;
-			position.y = 0.0 + w.height;
-			alive=true;
-		}
-		
-		if((!alive&&lives<=0)||lives<0) w.gameover(); 
+	if(c=='s'){
+	    facing="Down";
+	    position.y=position.y+21.3;
 	}
+	if(c=='d'){
+	    facing="Right";
+	    position.x=position.x+21.3;
+	}
+	stillAlive(w);
+	DrawImage.changePicture("Frog_"+facing+"_Sprite_0");
+	w.gameRunning.repaint();
+    }
     
-}
-
-class Pair{
-	public double x;
-	public double y;
-	
-	public Pair(double initX, double initY){
-		x = initX;
-		y = initY;
+    public static void stillAlive(World w){
+	int i=0;
+	while(alive&& i<w.obstacles.length){
+	    if(position.equals(w.obstacles[i].position)){
+		alive=false;
+	    }
+	    i++;
+	}
+	if(!alive&&lives>0){
+	    lives=lives-1;
+	    position.x=0.0+w.width/2;
+	    position.y=0.0+w.height;
+	    alive=true;
+	} 
+	if ( ( (position.y >= (w.height*2/12) && position.y <= (w.height*3/12)) || 
+	       (position.y >= (w.height*5/12) && position.y <= (w.height*6/12)) || 
+	       (position.y >= (w.height*8/12) && position.y <= (w.height*9/12)) ||
+	       (position.y >= (w.height*11/12) && position.y <= (w.height))) && !w.incontact() && alive ) {
+	    alive=false;
+	    lives = lives - 1;
+	    position.x = 0.0 + w.width/2;
+	    position.y = 0.0 + w.height;
+	    alive=true;
 	}
 	
-	public Pair add(Pair toAdd){
-		return new Pair(x + toAdd.x, y + toAdd.y);
-	}
+	if((!alive&&lives<=0)||lives<0){ /*w.gameover();*/ }
 	
-	public Pair divide(double denom){
-		return new Pair(x / denom, y / denom);
-	}
-	public Pair times(double val){
-		return new Pair(x * val, y * val);
-        }
-	
-	@Override
-	public boolean equals(pair compare){
-		boolean equal=false;
-		if(x==compare.x&&y==compare.y){
-	        	equal=true;
-		}
-		return equal;
-        }
-}
-
-class Obstacle{
-	double speed;
-    	Pair size;
-    	int type;
-    	Pair position;
-    	Random rand;
-	String facing;
-    
-    	public Obstacle(Pair p, int leftorright){	
-		rand=new Random();
-		if (leftorright == 1){
-			facing="Right";
-			speed=1.0+10.0*rand.nextDouble();
-		}
-		else {
-			facing="Left";
-			speed = -1.0 - 10.0*rand.nextDouble();
-		}
-		size = new Pair(10.0,5.0);
-		position.x = p.x;
-		position.y = p.y;
-	
-	}
-    
-    	public void update(World w){
-		position.x=position.x+speed
-		if (speed < 0)
-			if (position.x <= 0.0)
-				position.x = w.width;
-			
-		if (speed > 0)
-			if (position.x >= w.width)
-				position.x = 0.0;
-    	}
-    
-    	public void draw(Graphics g, World w){
-		String color;
-		if(rand.nextInt(2)==1)
-			color="Blue";
-		else{color="Red";}
-		w.gameRunning.di.changePicture("Car_"+facing+"_"+color+"_Sprite");
-		g.drawImage(w.gameRunning.di.picture,(int)position.x,(int)position.y,(int)size.x,(int)size.y,null);
-    	}	
-}
-
-class environmentalObjects{
-	double speed;
-	Pair size;
-	int type;
-	Pair position;
-	Random rand;
-    	
-	public environmentalObjects(Pair p, int leftorright){
-		if (leftorright == 1){
-			speed=1.0+10.0*rand.nextDouble();
-		}
-		else {
-			speed = -1-10*rand.nextDouble();
-		}
-		size = new Pair(10.0,5.0);
-		position.x = p.x;
-		position.y = p.y;
-		
-	}
-    
-
-    	public void update(World w){
-     		position.x=position.x+speed
-		if (speed < 0.0)
-	      		if (position.x <= 0.0)
-				position.x = w.width;
-			
-		if (speed > 0.0)
-			if (position.x >= w.width)
-				position.x = 0.0;
-    	}
-    
-    	public void draw(Graphics g, World w){	
-	    	w.gameRunning.di.changeImage("Log_Sprite")
-		g.drawImage(w.gameRunning.di.image,(int)position.x,(int)position.y,(int)size.x,(int)size.y),null);
-    	}
-
-}
-
-class powerup{
-    	pair position;
-    	Random rand;
-	
-    	public powerup(){
-	rand=new Random;	
-	position=new pair(0.0+rand.nextInt,0.0+rand.nextInt);
     }
 }
 
-class terrain{
-	
-	public terrain(){
-    	}
+class Pair{
+    public double x;
+    public double y;
     
-    	public void build(Graphics g, World w){
-	    	for (int i = 1; i < 13; i++){
-			if (i % 3 == 2)
-		    		g.setColor(Color.GREEN);
-			if (i % 3 == 1) 	
-		    		g.setColor(Color.GREY);
-			if(i % 3 == 0)
-			    	g.setColor(Color.BLUE);	
-			(g.fill(new Rectangle2D.Double(0,i*height/12, width, HEIGHT/12)));
+    public Pair(double initX, double initY){
+	x = initX;
+	y = initY;
+    }
+    
+    public Pair add(Pair toAdd){
+	return new Pair(x + toAdd.x, y + toAdd.y);
+    }
+    
+    public Pair divide(double denom){
+	return new Pair(x / denom, y / denom);
+    }
+    public Pair times(double val){
+	return new Pair(x * val, y * val);
+    }
+    
+    
+	public boolean equals(Pair compare){
+	boolean equal=false;
+	if(x==compare.x&&y==compare.y){
+	    equal=true;
+	}
+	return equal;
+    }
+}
+
+class Obstacle{
+    double speed;
+    Pair size;
+    int type;
+    Pair position;
+    Random rand;
+    String facing;
+    
+    public Obstacle(Pair p, int leftorright){	
+	rand=new Random();
+	if (leftorright == 1){
+	    facing="Right";
+	    speed=1.0+10.0*rand.nextDouble();
+	}
+	else {
+	    facing="Left";
+	    speed = -1.0 - 10.0*rand.nextDouble();
+	}
+	size = new Pair(10.0,5.0);
+	position.x = p.x;
+	position.y = p.y;
+	
+    }
+    
+    public void update(World w){
+	position.x=position.x+speed;
+	if (speed < 0)
+	    if (position.x <= 0.0)
+		position.x = w.width;
+	
+	if (speed > 0)
+	    if (position.x >= w.width)
+		position.x = 0.0;
+    }
+    
+    public void draw(Graphics g, World w){
+	String color;
+	if(rand.nextInt(2)==1)
+	    color="Blue";
+	else{color="Red";}
+	DrawImage.changePicture("Car_"+facing+"_"+color+"_Sprite");
+	g.drawImage(DrawImage.picture,(int)position.x,(int)position.y,(int)size.x,(int)size.y,null);
+    }	
+}
+
+class environmentalObjects{
+    double speed;
+    Pair size;
+    int type;
+    Pair position;
+    Random rand;
+    
+    public environmentalObjects(Pair p, int leftorright){
+	if (leftorright == 1){
+	    speed=1.0+10.0*rand.nextDouble();
+	}
+	else {
+	    speed = -1-10*rand.nextDouble();
+	}
+	size = new Pair(10.0,5.0);
+	position.x = p.x;
+	position.y = p.y;
 		
-		}
-	}	
+    }
+    
+    
+    public void update(World w){
+	position.x=position.x+speed;
+	if (speed < 0.0)
+	    if (position.x <= 0.0)
+		position.x = w.width;
+	
+	if (speed > 0.0)
+	    if (position.x >= w.width)
+		position.x = 0.0;
+    }
+    
+    public void draw(Graphics g, World w){	
+	DrawImage.changePicture("Log_Sprite");
+	g.drawImage(DrawImage.picture,(int)position.x,(int)position.y,(int)size.x,(int)size.y,null);
+    }
+    
+}
+
+
+class Terrain{
+    
+    public Terrain(){
+
+    }
+    
+    public void build(Graphics g, World w){
+	for (int i = 1; i < 13; i++){
+	    if (i % 3 == 2)
+		g.setColor(Color.GREEN);
+	    if (i % 3 == 1) 	
+		g.setColor(Color.GRAY);
+	    if(i % 3 == 0)
+		g.setColor(Color.BLUE);	
+	    
+	    g.fillRect(0,i*w.height/12, w.width, w.height/12);
+	    
+	}
+    }	
 }
