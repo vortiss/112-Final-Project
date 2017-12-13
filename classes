@@ -22,7 +22,7 @@ class userObject{
 	facing="Up";
 	alive=true;
 	lives=3;
-	position=new Pair(w.width/2,(double)w.height-21.3);
+	position=new Pair((double)w.width/2,(double)w.height-21.3);
 	DrawImage.changePicture("Frogs_"+facing+"_Sprite_0");
 	w.gameRunning.repaint();
 	
