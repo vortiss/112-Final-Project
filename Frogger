@@ -15,7 +15,7 @@ public class Frogger extends JPanel implements KeyListener{
     public static final int HEIGHT = 768;
     public static final int FPS = 60;
     World world;
-    static DrawImage di;
+    public static  DrawImage imageFinder;
     
     class Runner implements Runnable{
 	public void run(){
@@ -69,8 +69,8 @@ public class Frogger extends JPanel implements KeyListener{
     
     public static void main(String[] args){
 	JFrame frame = new JFrame("Frogger+");
-	di=new DrawImage();
-	frame.add(di);
+	imageFinder=new DrawImage();
+	frame.add(imageFinder);
 	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	Frogger mainInstance = new Frogger();
 	frame.setContentPane(mainInstance);
@@ -88,17 +88,12 @@ public class Frogger extends JPanel implements KeyListener{
 	    if(i % 3 == 0)
 		g.setColor(Color.BLUE);	
 	    
-	    g.fillRect(0,i*world.height/12, world.width, world.height/12);
+	    g.fillRect(0,(i-1)*world.height/12, world.width, world.height/12);
 	    
 	}
-	for(int i=0;i<world.numObstacles;i++){
-	    world.obstacles[i].draw(g,world);
-	}	
-    
-  	for (int i = 0; i < world.numLog; i ++){
-	    world.logs[i].draw(g,world);
-	}
-    
+	world.drawLogs(g);
+	world.drawObstacles(g);
+	
 	userObject.draw(g,world);
 	
     }
@@ -106,7 +101,7 @@ public class Frogger extends JPanel implements KeyListener{
 
 class World{
     static int height;
-    static int width;
+    static int  width;
     int numObstacles;
     int numLog;
     Obstacle[] obstacles;
@@ -125,29 +120,30 @@ class World{
 	obstacles=new Obstacle[numObstacle];
 	logs = new environmentalObjects[numLog];
 	frog = new userObject(this);
-	width=initWidth;
-	height=initHeight;	
+	width=(double)initWidth;
+	height=(double)initHeight;	
 
 	for (int i=0; i<numObstacle/4;i++){
-	    position[i] =new Pair(0.0, (double)(height/36*(4) + 9*i));   
+	    position[i] =new Pair(0,4*height/36 + 9*i);   
 	}
 	for (int i = numObstacle/4; i < numObstacle/2; i++){
-	    position[i] =new Pair(0.0,(double)(height/36*5 + 9*i));
+	    position[i] =new Pair(0,5*height/36 + 9*i);
 	}
 	for (int i = numObstacle/2; i < numObstacle*3/4; i++){
-	    position[i] =new Pair((double)width, (double)(height/36*4 + 9*i));	
+	    position[i] =new Pair(width,4*height/36 +9*i);	
 	}
 	for (int i = numObstacle*3/4; i<numObstacle; i++){
-	    position[i] =new Pair ((double)width, (double)(height/36*5 + 9*i));
+	    position[i] =new Pair (width,5*height/36 + 9*i);
 	}
+    /*you left off here COME BACK*/
 	for (int i= 0; i<numLog/4;i++){
-	    positionlogs[i] =new Pair (0.0, (double)(height/36*(7) + 9*i));   
+	    positionlogs[i] =new Pair (0, 7*height/36 + 9*i);   
 	}
 	for (int i = numLog/4; i < numLog/2; i++){
-	    positionlogs[i] =new Pair (0.0, (double)(height/36*8 + 9*i));
+	    positionlogs[i] =new Pair (0, 8*height/36 + 9*i);
 	}
 	for (int i = numLog/2; i < numLog*3/4; i++){
-	    positionlogs[i] =new Pair ((double)width, (double)(height/36*7 + 9*i));	
+	    positionlogs[i] =new Pair ((double)width, (double)(7*height/36 + 9*i));	
 	}
 	for (int i = numLog*3/4; i<numLog; i++){
 	    positionlogs[i] =new Pair ((double)width, (double)(height/36*8 + 9*i));
@@ -168,7 +164,7 @@ class World{
 	}
     }
     
-    public void gameOver(Graphics g){ 
+    public static void gameOver(Graphics g){ 
 	g.setColor(Color.BLACK);
 	g.drawRect(0,0,width,height);
 	g.setColor(new Color(202,13,13));
@@ -204,7 +200,6 @@ class World{
     
     public void updateState(){
 	for (int i = 0; i < numObstacles; i++){	
-	    
 	    obstacles[i].update(this);
 	    logs[i].update(this);
 	    if (incontact()){
@@ -228,10 +223,6 @@ class World{
 	}
     }
     
-    public void drawUserObject(Graphics g){
-	frog.draw(g,this);
-    }
-    
 }
 
 class DrawImage extends JPanel{
@@ -245,22 +236,10 @@ class DrawImage extends JPanel{
     
     public static void changePicture(String pictureName){
 	try{
-
-	    File f=new File("finalProject");
-	    File[] list=f.listFiles();
-	    boolean done=false;
-	    int loops=0;	    
-	    while(!done){
-		if(list[loops].isDirectory())
-		    done=true;
-		else{loops++;}
-	    }
-		
-	    File read=new File(list[loops].toString()+"/"+pictureName+".png");
-	    picture=ImageIO.read(read);
+	    picture=ImageIO.read(new File(pictureName+".png"));
 	}
 	catch(Exception e){
-	    System.out.println(e);
+	    System.out.println("Fishsticks! "+e+"\t"+pictureName);
 	}
     }
 }
