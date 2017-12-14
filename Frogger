@@ -19,7 +19,7 @@ public class Frogger extends JPanel implements KeyListener{
     
     class Runner implements Runnable{
 	public void run(){
-	    while(true){
+	    while(true){ // keeps the program running
 		world.updateState();
 		repaint();
 		try{
@@ -50,9 +50,7 @@ public class Frogger extends JPanel implements KeyListener{
     public void commands(KeyEvent e){
 	char c=e.getKeyChar();
 	if(c=='w'||c=='a'||c=='s'||c=='d')
-	    userObject.move(c,world);
-	/*	if(c=='p')
-	    this=new Frogger(); */
+	    userObject.move(c,world); // frogger moves up down left or right according to the key pressed
 	if(c=='l'){			
 	    System.out.println("Thanks for playing!");			
 	    System.exit(0);
@@ -60,7 +58,7 @@ public class Frogger extends JPanel implements KeyListener{
     }
     
     public Frogger(){
-	world = new World(WIDTH, HEIGHT,16,16,this);
+	world = new World(WIDTH, HEIGHT,16,16,this); // creates the world
 	addKeyListener(this);
 	this.setPreferredSize(new Dimension(WIDTH, HEIGHT));
 	Thread mainThread = new Thread(new Runner());
@@ -80,7 +78,7 @@ public class Frogger extends JPanel implements KeyListener{
     @Override
 	public void paintComponent(Graphics g) {
 	super.paintComponent(g);
-	for (int i = 0; i < 12; i++){
+	for (int i = 0; i < 12; i++){ // creates alternating rows of 3 diff types
 	    if (i % 3 == 2)
 		g.setColor(Color.GREEN);
 	    if (i % 3 == 1) 	
@@ -146,12 +144,15 @@ class World{
 	for (int i = numLog*3/4; i<numLog; i++){
 	    positionlogs[i] =new Pair (width, height/36*8 + 9*i);
 	}
+	// the above for loops establish the initial positions of the obstacles and logs
+	
 	for(int i=0; i < numObstacle;i++){
 	    if (i < numObstacle / 2)
 		obstacles[i]=new Obstacle(position[i], 1);
 	    if (i >= numObstacle/2)
 		obstacles[i] = new Obstacle(position[i], 0);
 	}
+	// assigns the position to the obstacles
 	
 	for(int i=0; i < numLog; i++){
 	    if (i < numLog / 2)
@@ -160,6 +161,8 @@ class World{
 		logs[i] = new environmentalObjects(position[i], 0);
 
 	}
+	
+	// assigns the position to the logs
     }
     
     public static void gameOver(Graphics g){ 
@@ -180,7 +183,7 @@ class World{
     public boolean incontact(){
 	for (int i = 0; i < numLog; i++){
 	    if ((frog.position.x<=(logs[i].position.x+logs[i].size.x)&&frog.position.x>=logs[i].position.x&&frog.position.y>=logs[i].position.y&&frog.position.y<=(logs[i].position.y+logs[i].size.y))||((frog.position.x+frog.width)<=(logs[i].position.x+logs[i].size.x)&&(frog.position.x+frog.width)>=logs[i].position.x&&frog.position.y>=logs[i].position.y&&frog.position.y<=(logs[i].position.y+logs[i].size.y)))
-		return true;
+		return true; // determines if frog is in contact with a log
 	}
 	return false;
 	
@@ -190,7 +193,7 @@ class World{
 	for (int i = 0; i < numLog; i++){
 	    if ((frog.position.x<=(logs[i].position.x+logs[i].size.x)&&frog.position.x>=logs[i].position.x&&frog.position.y>=logs[i].position.y&&frog.position.y<=(logs[i].position.y+logs[i].size.y))||((frog.position.x+frog.width)<=(logs[i].position.x+logs[i].size.x)&&(frog.position.x+frog.width)>=logs[i].position.x&&frog.position.y>=logs[i].position.y&&frog.position.y<=(logs[i].position.y+logs[i].size.y)))
 		
-		return logs[i];
+		return logs[i]; // returns the log that the frog is in contact with
 	}
         return null;
 	
@@ -201,7 +204,8 @@ class World{
 	    obstacles[i].update(this);
 	    logs[i].update(this);
 	    if (incontact()){
-		frog.position.x = frog.position.x + contactLog().speed;
+		frog.position.x = frog.position.x + contactLog().speed; // updates the state of logs, obstacles, and frog (if it is in contact 
+		with a log)
 	    }
 	}	
 	frog.stillAlive(this);
