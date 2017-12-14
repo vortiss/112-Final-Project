@@ -22,7 +22,7 @@ class userObject{
 	facing="Up";
 	alive=true;
 	lives=3;
-	position=new Pair((double)(w.width/2),(double)(w.height-21));
+	position=new Pair(w.width/2,w.height-32);
 	DrawImage.changePicture("Frog_"+facing+"_Sprite_0");
 	w.gameRunning.repaint();
 	
@@ -30,7 +30,7 @@ class userObject{
     
     public static void draw(Graphics g, World w){
 	DrawImage.changePicture("Frog_"+facing+"_Sprite_0");
-	g.drawImage(DrawImage.picture, (int)position.x,(int)position.y,width,height,null); 
+	g.drawImage(DrawImage.picture, position.x,position.y,width,height,null); 
     }
     
     public static void move(char direction, World w){
@@ -98,8 +98,8 @@ class userObject{
 	}
 	if(!alive&&lives>0){
 	    lives=lives-1;
-	    position.x=0.0+w.width/2;
-	    position.y=0.0+w.height;
+	    position.x=w.width/2;
+	    position.y=w.height;
 	    alive=true;
 	    w.gameRunning.repaint();
 	} 
