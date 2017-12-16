@@ -105,8 +105,11 @@ class userObject{
 	    respawn(w);
 	    w.gameRunning.getGraphics().drawImage(DrawImage.picture,position.x,position.y,size.x,size.y,null);
 	}
-	
-	if((!alive && lives <= 0) || lives < 0){ w.gameOver(w.gameRunning.getGraphics()); }
+	if(w.hit()){
+	    alive=false;
+	    respawn(w);
+	}
+	if((!alive && lives <= 0) || lives < 0){ w.defeated=true;}
 	
     }
     public static void respawn(World w){
@@ -221,7 +224,7 @@ class environmentalObjects{
 	g.setColor(w.gameRunning.background);	
 	DrawImage.changePicture("Log_Sprite");
 	g.drawImage(DrawImage.picture, position.x, position.y, size.x, size.y, null);
-
+	
     }
     
 }
