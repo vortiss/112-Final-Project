@@ -198,10 +198,10 @@ class environmentalObjects{
     public environmentalObjects(Pair p, int leftorright,World w){
 	rand = new Random();	
 	if (leftorright == 1){
-	    speed = 1 + rand.nextInt(10);
+	    speed = 1 + rand.nextInt(5);
 	}
 	else {
-	    speed = -1 - rand.nextInt(10);
+	    speed = -1 - rand.nextInt(5);
 	}
 	size = new Pair(64, 64);
 	position = p;
