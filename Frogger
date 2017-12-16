@@ -180,10 +180,10 @@ class World{
     //This method determines whether or not the frog is at least half way on a log and returns the number of the log that the frog is on, and if it isn't on one, then it returns -1 
     public int contactLog(){
 	for (int i = 0; i < numLogs; i++){ 
-	    if(userObject.position.x <= (logs[i].position.x + logs[i].size.x) &&
-	       userObject.position.x + (userObject.size.x / 2) >= logs[i].position.x &&
-	       userObject.position.y + (userObject.size.y / 2) >= logs[i].position.y &&
-	       userObject.position.y <= (logs[i].position.y + logs[i].size.y))
+	    if(userObject.position.x <= (logs[i].position.x + logs[i].size.x - (userObject.size.x)/2) &&
+	       userObject.position.x + (userObject.size.x / 2) >= logs[i].position.x  &&
+	       userObject.position.y + (userObject.size.y / 2) >= logs[i].position.y + (userObject.size.y)/2&&
+	       userObject.position.y <= (logs[i].position.y + logs[i].size.y - (userObject.size.y)/2))
 		return i;
 	}
 	return -1;
@@ -191,10 +191,10 @@ class World{
     }
     public boolean hit(){
 	for (int i = 0; i < numLogs; i++){ 
-	    if(userObject.position.x <= (obstacles[i].position.x + obstacles[i].size.x) &&
+	    if(userObject.position.x <= (obstacles[i].position.x + obstacles[i].size.x-20) &&
 	       userObject.position.x + (userObject.size.x / 2) >= obstacles[i].position.x &&
 	       userObject.position.y + (userObject.size.y / 2) >= obstacles[i].position.y &&
-	       userObject.position.y <= (obstacles[i].position.y + obstacles[i].size.y))
+	       userObject.position.y <= (obstacles[i].position.y + obstacles[i].size.y-30))
 		return true;
 	}
 	return false;
