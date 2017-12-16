@@ -10,7 +10,7 @@ import java.awt.event.KeyEvent;
 public class Frogger extends JPanel implements KeyListener{
     public static final int WIDTH = 1024;
     public static final int HEIGHT = 768;
-    public static final int FPS = 60;
+    public static final int FPS = 30;
     World world;
     public static  DrawImage imageFinder;
     Color background;
@@ -74,14 +74,28 @@ public class Frogger extends JPanel implements KeyListener{
     @Override
 	public void paintComponent(Graphics g) {
 	super.paintComponent(g);
-	background=g.getColor();
-	Terrain.build(g);
-	world.drawLogs(g);
-	world.drawObstacles(g);
-	userObject.draw(g);
-	g.setColor(background);
+	if(world.defeated){
+	    g.setColor(Color.black);
+	    g.fillRect(0,0,WIDTH,HEIGHT);
+	    g.setColor(Color.RED);
+	    g.drawString("You dun' messed up son, press 'l' to leave, L in tow",(WIDTH / 2) - 22,HEIGHT / 2);
+	}
+	else{
+	    if(world.youWin){
+		g.setColor(Color.BLUE);
+		g.fillRect(0,0,WIDTH,HEIGHT);
+		g.setColor(Color.GREEN);
+		g.drawString("AAAAAYYYYYY YOU WON GANG GANG GANG",WIDTH/2,HEIGHT/2);
+	    }
+	    else{
+		Terrain.build(g);
+		world.drawLogs(g);
+		world.drawObstacles(g);
+		userObject.draw(g);
+	    }
+	}
     }
-}
+} 
 
 class World{
     static int height;
@@ -96,13 +110,16 @@ class World{
     userObject frog;
     Frogger gameRunning;
     boolean initialized;
-    
-    public World(int initWidth, int initHeight,int numObstacle, int numLogs, Frogger game){
-	initialized=false;
-	gameRunning=game;
-	position = new Pair[numObstacle];
+    boolean defeated;
+    boolean youWin;
+    public World(int initWidth, int initHeight,int numObstacle, int numLog, Frogger game){
+	initialized = false;
+	gameRunning = game;
+	numObstacles = numObstacle;
+	numLogs = numLog;
+	position = new Pair[numObstacles];
 	positionlogs = new Pair[numLogs];
-	obstacles=new Obstacle[numObstacle];
+	obstacles = new Obstacle[numObstacle];
 	logs = new environmentalObjects[numLogs];
 	frog = new userObject(this);
 	width=initWidth;
@@ -141,21 +158,13 @@ class World{
 	
 	for(int i=0; i < numLogs; i++){
 	    if (i < numLogs / 2)
-		logs[i]=new environmentalObjects(position[i], 1, this);
+		logs[i]=new environmentalObjects(positionlogs[i], 1, this);
 	    if (i >= numLogs/2)
-		logs[i] = new environmentalObjects(position[i], 0, this);
+		logs[i] = new environmentalObjects(positionlogs[i], 0, this);
 
 	}
     }
     
-    public static void gameOver(Graphics g){ 
-	g.setColor(Color.BLACK);
-	g.drawRect(0,0,width,height);
-	g.setColor(new Color(202,13,13));
-	g.drawString("You died not once, not twice, but thrice. Press p to play again or l to leave", (width / 2) - 63, height / 2);
-    	
-    
-    }
     public void initialState(){
 	userObject.position.x = width / 2;
 	userObject.position.y = height - 32;
@@ -180,7 +189,18 @@ class World{
 	return -1;
 	
     }
-    
+    public boolean hit(){
+	for (int i = 0; i < numLogs; i++){ 
+	    if(userObject.position.x <= (obstacles[i].position.x + obstacles[i].size.x) &&
+	       userObject.position.x + (userObject.size.x / 2) >= obstacles[i].position.x &&
+	       userObject.position.y + (userObject.size.y / 2) >= obstacles[i].position.y &&
+	       userObject.position.y <= (obstacles[i].position.y + obstacles[i].size.y))
+		return true;
+	}
+	return false;
+	
+    }
+	
     public void updateState(){
 	if(!initialized)
 	    initialState();
@@ -194,7 +214,8 @@ class World{
 	    }
 	    userObject.stillAlive(this);
 	}
-	
+	if(userObject.position.y<=0)
+	    youWin=true;
     }
     
     public void drawObstacles(Graphics g){
