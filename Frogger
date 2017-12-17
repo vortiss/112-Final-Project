@@ -51,7 +51,7 @@ public class Frogger extends JPanel implements KeyListener{
 	    System.out.println("Thanks for playing!");			
 	    System.exit(0);
 	}
-    }
+    }//commands method executes specific commands depending on key pressed on keyboard
     
     public Frogger(){
 	world = new World(WIDTH, HEIGHT,16,16,this);
@@ -60,6 +60,7 @@ public class Frogger extends JPanel implements KeyListener{
 	Thread mainThread = new Thread(new Runner());
 	mainThread.start();
     }
+    //makes new world object,assigns it a keylistener, makes a thread, starts the thread 
     
     public static void main(String[] args){
 	JFrame frame = new JFrame("Frogger+");
@@ -74,19 +75,20 @@ public class Frogger extends JPanel implements KeyListener{
     @Override
 	public void paintComponent(Graphics g) {
 	super.paintComponent(g);
-	if(world.defeated){
+	if(world.defeated)
+	{
 	    g.setColor(Color.black);
 	    g.fillRect(0,0,WIDTH,HEIGHT);
 	    g.setColor(Color.RED);
 	    g.drawString("You dun' messed up son, press 'l' to leave, L in tow",(WIDTH / 2) - 22,HEIGHT / 2);
-	}
+	}//draws frame when player loses
 	else{
 	    if(world.youWin){
 		g.setColor(Color.BLUE);
 		g.fillRect(0,0,WIDTH,HEIGHT);
 		g.setColor(Color.GREEN);
 		g.drawString("AAAAAYYYYYY YOU WON GANG GANG GANG",WIDTH/2,HEIGHT/2);
-	    }
+	    }// draws frame when player wins
 	    else{
 		Terrain.build(g);
 		world.drawLogs(g);
@@ -163,7 +165,7 @@ class World{
 		logs[i] = new environmentalObjects(positionlogs[i], 0, this);
 
 	}
-    }
+    }// for loops to make log and car objects and assign each of them positions  
     
     public void initialState(){
 	userObject.position.x = width / 2;
@@ -175,9 +177,9 @@ class World{
 	    logs[i].position = positionlogs[i];
 	}
 	initialized=true;
-    }
+    }//method to set userObject, cars and logs to their initial states. 
 
-    //This method determines whether or not the frog is at least half way on a log and returns the number of the log that the frog is on, and if it isn't on one, then it returns -1 
+    
     public int contactLog(){
 	for (int i = 0; i < numLogs; i++){ 
 	    if(userObject.position.x <= (logs[i].position.x + logs[i].size.x - (userObject.size.x)/2) &&
@@ -188,7 +190,7 @@ class World{
 	}
 	return -1;
 	
-    }
+    }///This method determines whether or not the frog is at least half way on a log and returns the number of the log that the frog is on, and if it isn't on one, then it returns -1 
     public boolean hit(){
 	for (int i = 0; i < numLogs; i++){ 
 	    if(userObject.position.x <= (obstacles[i].position.x + obstacles[i].size.x-20) &&
@@ -199,7 +201,7 @@ class World{
 	}
 	return false;
 	
-    }
+    }// to check whether the frog has been hit by a car
 	
     public void updateState(){
 	if(!initialized)
@@ -216,7 +218,7 @@ class World{
 	}
 	if(userObject.position.y<=0)
 	    youWin=true;
-    }
+    }//updates the states of userObject,logs and obstacles.
     
     public void drawObstacles(Graphics g){
 	for(int i=0;i<numObstacles;i++){
@@ -249,4 +251,4 @@ class DrawImage extends JPanel{
 	    System.out.println("Fishsticks! "+e+"\t"+pictureName);
 	}
     }
-}
+}// to read image files 
