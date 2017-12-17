@@ -185,7 +185,7 @@ class World{
 	    if(userObject.position.x <= (logs[i].position.x + logs[i].size.x - (userObject.size.x)/2) &&
 	       userObject.position.x + (userObject.size.x / 2) >= logs[i].position.x  &&
 	       userObject.position.y + (userObject.size.y / 2) >= logs[i].position.y + (userObject.size.y)/2&&
-	       userObject.position.y <= (logs[i].position.y + logs[i].size.y - (userObject.size.y)/2))
+	       userObject.position.y <= (logs[i].position.y + logs[i].size.y - 25))
 		return i;
 	}
 	return -1;
@@ -195,8 +195,8 @@ class World{
 	for (int i = 0; i < numLogs; i++){ 
 	    if(userObject.position.x <= (obstacles[i].position.x + obstacles[i].size.x-20) &&
 	       userObject.position.x + (userObject.size.x / 2) >= obstacles[i].position.x &&
-	       userObject.position.y + (userObject.size.y / 2) >= obstacles[i].position.y &&
-	       userObject.position.y <= (obstacles[i].position.y + obstacles[i].size.y-30))
+	       userObject.position.y + (userObject.size.y / 2) - 10  >= obstacles[i].position.y &&
+	       userObject.position.y <= (obstacles[i].position.y + obstacles[i].size.y-45))
 		return true;
 	}
 	return false;
