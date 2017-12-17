@@ -154,11 +154,11 @@ class Obstacle{
 	/*This if else determines the direction the car moves in and how fast*/
 	if (leftorright == 1){
 	    facing = "Right";
-	    speed = 1 + rand.nextInt(10);
+	    speed = 1 + rand.nextInt(5);
 	}
 	else {
 	    facing = "Left";
-	    speed = -1 - rand.nextInt(10);
+	    speed = -1 - rand.nextInt(5);
 	}
 	/*this if else decides the color*/
 	if(rand.nextInt(2) == 1)
