@@ -7,7 +7,7 @@ import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 
-class userObject{
+class userObject{ //referring to the frog
     private static int lives;
     static Pair position;
     static boolean alive;
@@ -24,12 +24,13 @@ class userObject{
     }
     
     public static void draw(Graphics g){
-	DrawImage.changePicture("Frog_"+facing+"_Sprite_0");
+	DrawImage.changePicture("Frog_"+facing+"_Sprite_0"); // selects upwards facing picture initially
 	g.drawImage(DrawImage.picture, position.x,position.y,size.x,size.y,null);
     }
     
     public static void move(char direction, World w){
 	w.gameRunning.getGraphics().drawImage(DrawImage.picture,position.x,position.y,size.x,size.y,null);
+	// moves frog according to w a s d keyboard inputs
 	if(direction=='w'){
 	    facing="Up";
 	    DrawMove(w);	
@@ -56,16 +57,16 @@ class userObject{
 	DrawImage.changePicture("Frog_"+facing+"_Sprite_1");
 	w.gameRunning.getGraphics().drawImage(DrawImage.picture,position.x,position.y,size.x,size.y,null);
 	try{Thread.sleep(3);}catch(InterruptedException e){}
-	if(facing.equals("Left") || facing.equals("Right")){
+	if(facing.equals("Left") || facing.equals("Right")){ 
 	    for(int i=0;i<2;i++){
 		if(i<1)
 		    DrawImage.changePicture("Frog_"+facing+"_Sprite_2");
 		if(i>=1)
-		    DrawImage.changePicture("Frog_"+facing+"_Sprite_3");
+		    DrawImage.changePicture("Frog_"+facing+"_Sprite_3"); //selects either right or left facing frog
 		if(facing.equals("Right"))
 		    position.x = position.x + 8;
 		if(facing.equals("Left"))
-		    position.x = position.x - 8;
+		    position.x = position.x - 8; // moves frog eight units in desired direction
 		w.gameRunning.getGraphics().drawImage(DrawImage.picture,position.x,position.y,size.x,size.y,null);
 	    }
 	}
@@ -74,11 +75,11 @@ class userObject{
 		if(i<1)
 		    DrawImage.changePicture("Frog_"+facing+"_Sprite_2");
 		if(i>=1)
-		    DrawImage.changePicture("Frog_"+facing+"_Sprite_3");
+		    DrawImage.changePicture("Frog_"+facing+"_Sprite_3"); // selects either up or down facing frog
 		if(facing.equals("Up"))
 		    position.y = position.y - 8;
 		if(facing.equals("Down"))
-		    position.y = position.y + 8;
+		    position.y = position.y + 8; // moves frog eight units in desired direction
 		w.gameRunning.getGraphics().drawImage(DrawImage.picture,position.x,position.y,size.x,size.y,null);
 	    }
 	}
@@ -86,24 +87,26 @@ class userObject{
     
     public static void stillAlive(World w){
 	
-	if(!alive&&lives>0){
-	    respawn(w);
-	    draw(w.gameRunning.getGraphics());
-	} 
+	
 	if (((position.y >= 0  && (position.y + size.y) <= w.height/12) || 
 	     (position.y >= w.height*3/12 && (position.y + size.y) <= w.height*4/12) || 
 	     (position.y >= w.height*6/12 && (position.y + size.y) <= w.height*7/12) ||
              (position.y >= w.height*9/12 && (position.y + size.y) <= w.height*10/12)
 	     ) && w.contactLog()==-1 && alive ) {
 	    alive=false;
-	    respawn(w);
+	    respawn(w); // if frog is in the water, die then resurrect
 	    w.gameRunning.getGraphics().drawImage(DrawImage.picture,position.x,position.y,size.x,size.y,null);
 	}
 	if(w.hit()){
-	    alive=false;
-	    respawn(w);
+	    alive=false; // if car frog gets hit by car, it dies
+	    respawn(w); // resurrects
 	}
-	if((!alive && lives <= 0) || lives < 0){ w.defeated=true;}
+
+	if(!alive&&lives>0){
+	    respawn(w); // resurrects frog to starting position
+	    draw(w.gameRunning.getGraphics());
+	} 
+	if((!alive && lives <= 0) || lives < 0){ w.defeated=true;} // lose game
 	
     }
     public static void respawn(World w){
@@ -111,7 +114,7 @@ class userObject{
 	position.y = w.height-32;
 	facing="Up";
 	alive=true;
-	lives=lives-1;
+	lives=lives-1; // takes away one of three lives, puts frog back at start
 	draw(w.gameRunning.getGraphics());
     }
 }
@@ -165,7 +168,9 @@ class Obstacle{
     }
     
     public void update(World w){
+    /*updates position of frog */
 	position.x = position.x + speed;
+	/*these if statements set the logs back to their original positions after they reach the opposite side*/
 	if (speed < 0)
 	    if (position.x <= 0)
 		position.x = w.width;
@@ -176,6 +181,7 @@ class Obstacle{
     }
     
     public void draw(Graphics g, World w){
+    	// draws the car
 	g.setColor(w.gameRunning.background);
 	DrawImage.changePicture("Car_"+facing+"_Sprite_"+color);
 	g.drawImage(DrawImage.picture, position.x, position.y, size.x, size.y, null);
@@ -191,12 +197,15 @@ class environmentalObjects{
     
     public environmentalObjects(Pair p, int leftorright,World w){
 	rand = new Random();	
+	/* this if else  sets the speed/direction of logs*/
 	if (leftorright == 1){
 	    speed = 1 + rand.nextInt(5);
 	}
 	else {
 	    speed = -1 - rand.nextInt(5);
 	}
+	
+	/* determines size and position of logs */
 	size = new Pair(64, 64);
 	position = p;
 	DrawImage.changePicture("Log_Sprite");
@@ -204,6 +213,7 @@ class environmentalObjects{
     
     
     public void update(World w){
+    	//updates position of logs, resets them to their original position once they reach the opposite side of the screen
 	position.x = position.x + speed;
 	if (speed < 0)
 	    if (position.x <= 0)
@@ -215,6 +225,7 @@ class environmentalObjects{
     }
     
     public void draw(Graphics g, World w){
+    	// draws log
 	g.setColor(w.gameRunning.background);	
 	DrawImage.changePicture("Log_Sprite");
 	g.drawImage(DrawImage.picture, position.x, position.y, size.x, size.y, null);
@@ -226,6 +237,8 @@ class environmentalObjects{
 
 class Terrain{ 
     public static void build(Graphics g){
+    
+    // draws rows on screen, grass, roads, and rivers in that order
 	for (int i = 0; i < 12; i++){
 	    if (i % 3 == 2)
 		g.setColor(Color.GREEN);
