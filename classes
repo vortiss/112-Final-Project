@@ -85,13 +85,7 @@ class userObject{
     }
     
     public static void stillAlive(World w){
-	int i=0;
-	while(alive && i < w.obstacles.length){
-	    if(position.equals(w.obstacles[i].position)){
-		alive=false;
-	    }
-	    i++;
-	}
+	
 	if(!alive&&lives>0){
 	    respawn(w);
 	    draw(w.gameRunning.getGraphics());
